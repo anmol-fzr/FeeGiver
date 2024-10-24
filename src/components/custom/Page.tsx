@@ -5,7 +5,7 @@ type PageProps = ComponentPropsWithoutRef<"div">;
 
 const Page = (props: PageProps) => {
   const className = cn(
-    "flex w-full items-center justify-center px-4",
+    "flex w-full items-center justify-center p-4 md:p-10",
     props.className,
   );
   return <div {...props} className={className} />;

@@ -18,8 +18,8 @@ const FormInput = ({ label, name, desc, ...props }: FormInputProps) => {
 
   return (
     <div ref={animate} className="flex flex-col gap-2 w-full">
-      <FormLabel>{label}</FormLabel>
-      <Input {...register(name)} {...props} />
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Input {...register(name)} id={name} {...props} />
       {desc && <FormDescription>{desc}</FormDescription>}
       {error && <FormError>{error}</FormError>}
       <FormMessage />

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -11,26 +11,61 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { loginSchema } from "@/schema/authSchema";
-import { z } from "zod";
+import { API } from "@/services";
+import { toast } from "sonner";
+import { useAuthStore, useProfileStore } from "@/store";
+import { IReqLogin } from "@/type/req";
 
-type FormType = z.infer<typeof loginSchema>;
+const updateCreds = useAuthStore.getState().updateCreds;
+const updateProfile = useProfileStore.getState().updateProfile;
 
-export function LoginForm() {
-  const form = useForm<FormType>({
+type ILoginForm = IReqLogin;
+
+const id = "login_form";
+
+function LoginForm() {
+  const navigate = useNavigate();
+
+  const form = useForm<ILoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      email: "ainsa2279@gmail.com",
+      password: "Sbs@123#",
     },
   });
 
-  function onSubmit(values: FormType) {
-    console.log(values);
+  const { mutate, isPending } = useMutation({
+    mutationFn: API.AUTH.LOGIN,
+    onSuccess(res) {
+      toast.success(res.message, { id });
+      const { token, isProfileComplete } = res.data;
+
+      updateCreds({ token, isLogin: isProfileComplete });
+
+      if (isProfileComplete) {
+        const profile = res.data.details;
+        updateProfile(profile);
+        navigate("/");
+        return;
+      }
+
+      toast("Please Complete your Profile before proceeding");
+      navigate("/auth/onboard");
+    },
+    onError(err) {
+      console.log(err);
+      toast.error(err.message, { id });
+    },
+  });
+
+  function onSubmit(values: ILoginForm) {
+    mutate(values);
   }
-  console.log(form.formState.errors);
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -43,7 +78,7 @@ export function LoginForm() {
             <FormInput
               name="email"
               label="Email address"
-              placeholder="student@email.in"
+              placeholder="student@sbsstc.in"
             />
             <FormInput
               name="password"
@@ -52,7 +87,7 @@ export function LoginForm() {
               placeholder="*** ***"
             />
             <div className="flex flex-col gap-2">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isPending}>
                 Login
               </Button>
               <p className="text-center">
@@ -74,3 +109,5 @@ export function LoginForm() {
     </Card>
   );
 }
+
+export { LoginForm };
