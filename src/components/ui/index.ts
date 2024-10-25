@@ -11,3 +11,8 @@ export * from "./dropdown-menu";
 export * from "./avatar";
 export * from "./separator";
 export * from "./textarea";
+export * from "./table";
+export * from "./badge";
+export * from "./command";
+export * from "./popover";
+export * from "./alert";

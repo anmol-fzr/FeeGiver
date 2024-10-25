@@ -102,3 +102,9 @@ button[data-placeholder] > span {
 .max-w-theme {
   @apply max-w-screen-2xl mx-auto;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

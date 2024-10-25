@@ -10,10 +10,15 @@ import { useAuthStore } from "@/store";
 import { useMutation } from "@tanstack/react-query";
 import { API } from "@/services";
 import { toast } from "sonner";
-import { convertToWords } from "@/lib/utils";
-import { semOptions, feeTypeOptions, boolOptions, guessCurrSem } from "@/utils";
+import {
+  semOptions,
+  feeTypeOptions,
+  boolOptions,
+  guessCurrSem,
+  convertToWords,
+} from "@/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useEffect } from "react";
+
 const updateCreds = useAuthStore.getState().updateCreds;
 
 type ILoginForm = IReqLogin;
@@ -77,7 +82,7 @@ const FeeAddPage = () => {
           className="flex flex-col gap-4"
         >
           <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
             ref={parent}
           >
             <FormInput name="name" disabled label="Name" placeholder="Rahul" />
