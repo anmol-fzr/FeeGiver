@@ -3,13 +3,13 @@ import { useAuthStore } from "@/store";
 
 const validateStatus = (status: number) => {
   if (status === 401) {
-    // logout();
+    logout();
   }
   return status >= 200 && status < 300;
 };
 
 const axiosInst = axios.create({
-  baseURL: "http://192.168.29.57:3000",
+  baseURL: "http://192.168.29.57:3000/student",
   timeout: 50_000,
   validateStatus,
 });

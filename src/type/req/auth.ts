@@ -8,7 +8,6 @@ import { z } from "zod";
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 type IReqLogin = z.infer<typeof loginSchema>;
-type IReqOnBoard = z.infer<typeof stuOnboardSchema>;
 type IReqSignUp = Pick<SignUpFormData, "email" | "password">;
 
-export type { IReqLogin, IReqOnBoard, IReqSignUp };
+export type { IReqLogin, IReqSignUp };

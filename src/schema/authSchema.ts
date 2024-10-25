@@ -38,29 +38,21 @@ const signUpSchema = z
 
 const stuOnboardSchema = z.object({
   name: z.string().min(2),
-  mobile: z
-    .string()
-    .length(10, "Mobile Number must be of exact 10 digits")
-    .transform(Number)
-    .refine(isNumValid, { message: "Invalid Mobile Number" }),
+  mobile: z.string().length(10, "Mobile Number must be of exact 10 digits"),
+  //.transform(Number)
+  //.refine(isNumValid, { message: "Invalid Mobile Number" }),
   admissionNo: z
     .string()
     .min(4, "Admission Number must be of atleast 4 digits")
-    .max(8, "Admission Number must be of atmost 8 digits")
-    .transform(Number)
-    .refine(isNumValid, { message: "Invalid Admission Number" }),
-  rollNo: z
-    .string()
-    .min(4)
-    .max(8)
-    .transform(Number)
-    .refine(isNumValid, { message: "Invalid Roll Number" }),
-  batch: z
-    .string()
-    .min(4)
-    .max(4)
-    .transform(Number)
-    .refine(isNumValid, { message: "Invalid Batch Year" }),
+    .max(8, "Admission Number must be of atmost 8 digits"),
+  //.transform(Number)
+  //.refine(isNumValid, { message: "Invalid Admission Number" }),
+  rollNo: z.string().min(4).max(8),
+  //.transform(Number)
+  //.refine(isNumValid, { message: "Invalid Roll Number" }),
+  batch: z.string().min(4).max(4),
+  //.transform(Number)
+  //.refine(isNumValid, { message: "Invalid Batch Year" }),
 });
 
 export { loginSchema, signUpSchema, stuOnboardSchema };
