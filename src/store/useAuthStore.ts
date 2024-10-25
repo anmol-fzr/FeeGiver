@@ -5,7 +5,8 @@ import { createJSONStorage } from "zustand/middleware";
 
 const creds: IAuthStore["creds"] = {
   isLogin: false,
-  token: null,
+  token: "",
+  email: "",
 };
 
 const useAuthStore = create<IAuthStore>()(

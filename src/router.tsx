@@ -5,6 +5,7 @@ import {
   OnboardingPage,
   NotFoundPage,
   ProfilePage,
+  AccountPage,
 } from "./pages";
 import { HomePage, FeeAddPage } from "./pages";
 import { AuthLayout, MainLayout, SettingsLayout } from "./layouts";
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="fee/add" element={<FeeAddPage />} />
         <Route path="/settings" element={<SettingsLayout />}>
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="account" element={<AccountPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

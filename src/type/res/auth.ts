@@ -4,9 +4,11 @@ type Root =
   | ({
       isProfileComplete: true;
       token: string;
+      email: string;
     } & StudentProfile)
   | {
       isProfileComplete: false;
+      email: string;
       token: string;
     };
 

@@ -26,6 +26,11 @@ for (let index = 0; index < 4; index++) {
   });
 }
 
+/**
+ * Form with name, admissionNo, rollNo and batch Fields
+ * Used in OnboardingForm and UpdateProfileForm
+ **/
+
 const ProfileForm = <T extends FieldValues>({
   form,
   onSubmit,

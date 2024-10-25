@@ -2,7 +2,8 @@ import { StudentProfileDetails } from "@/type/res";
 
 type IAuthStoreState = {
   creds: {
-    token: string | null;
+    token: string;
+    email: string;
     isLogin: boolean;
   };
 };

@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -7,8 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
-import { FormInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -17,6 +14,7 @@ import { API } from "@/services";
 import { toast } from "sonner";
 import { useAuthStore, useProfileStore } from "@/store";
 import { IReqLogin } from "@/type/req";
+import { AccountForm } from "./AccountForm";
 
 const updateCreds = useAuthStore.getState().updateCreds;
 const updateProfile = useProfileStore.getState().updateProfile;
@@ -40,9 +38,9 @@ function LoginForm() {
     mutationFn: API.AUTH.LOGIN,
     onSuccess(res) {
       toast.success(res.message, { id });
-      const { token, isProfileComplete } = res.data;
+      const { token, isProfileComplete, email } = res.data;
 
-      updateCreds({ token, isLogin: isProfileComplete });
+      updateCreds({ token, isLogin: isProfileComplete, email });
 
       if (isProfileComplete) {
         const profile = res.data.details;
@@ -73,38 +71,11 @@ function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormInput
-              name="email"
-              label="Email address"
-              placeholder="student@sbsstc.in"
-            />
-            <FormInput
-              name="password"
-              label="Password"
-              type="password"
-              placeholder="*** ***"
-            />
-            <div className="flex flex-col gap-2">
-              <Button type="submit" className="w-full" disabled={isPending}>
-                Login
-              </Button>
-              <p className="text-center">
-                Don't have an account?
-                <Link
-                  to="/auth/signup"
-                  className={buttonVariants({
-                    variant: "link",
-                    className: "!pl-1 !p-0",
-                  })}
-                >
-                  Sign Up
-                </Link>
-              </p>
-            </div>
-          </form>
-        </Form>
+        <AccountForm
+          {...{ form, onSubmit, isPending }}
+          buttonText="Login"
+          showSignUp
+        />
       </CardContent>
     </Card>
   );

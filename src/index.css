@@ -94,3 +94,7 @@
 button[data-placeholder] > span {
   @apply text-muted-foreground;
 }
+
+::selection:not(input) {
+  @apply bg-muted text-foreground/75;
+}
