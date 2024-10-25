@@ -9,7 +9,7 @@ const PROFILE = {
   CREATE: (data: IReqCreateProfile) =>
     axiosInst.post<IReqCreateProfile, IResOnBoard>(uri, data),
   UPDATE: (data: IReqUpdateProfile) =>
-    axiosInst.post<IReqUpdateProfile, IResUpdateProfile>(uri, data),
+    axiosInst.patch<IReqUpdateProfile, IResUpdateProfile>(uri, data),
 } as const;
 
 export { PROFILE };

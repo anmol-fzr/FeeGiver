@@ -41,8 +41,12 @@ const UpdateProfileForm = () => {
   });
 
   // FIX Later
-  function onSubmit(values: any) {
-    mutate(values);
+  function onSubmit(data: any) {
+    const payload: Record<string, any> = {};
+    Object.keys(form.formState.dirtyFields).forEach((key) => {
+      payload[key] = data[key];
+    });
+    mutate(payload);
   }
 
   return (

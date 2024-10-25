@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, FormSelect } from "@/components";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
-import { Option } from "@/type";
-import { formatOrdinals } from "@/lib/utils";
+import { yearOptions } from "@/utils";
 
 type BaseFormProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -14,18 +13,6 @@ type BaseFormProps<T extends FieldValues> = {
 
 const year = new Date().getFullYear().toString();
 const batch = year.slice(2);
-
-const yearOptions: Option[] = [];
-
-for (let index = 0; index < 4; index++) {
-  const bth = (Number(year) - index).toString();
-  yearOptions.push({
-    label: `${bth}`,
-    helper: ` ( ${formatOrdinals(index + 1)} year )`,
-    value: bth,
-  });
-}
-
 /**
  * Form with name, admissionNo, rollNo and batch Fields
  * Used in LoginForm and UpdateProfileForm

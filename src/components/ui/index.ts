@@ -10,3 +10,4 @@ export * from "./theme-toggle";
 export * from "./dropdown-menu";
 export * from "./avatar";
 export * from "./separator";
+export * from "./textarea";

@@ -9,6 +9,7 @@ import {
   FormDescription,
 } from "@/components";
 import { Option } from "@/type";
+import { SelectProps } from "@radix-ui/react-select";
 import { useFormContext } from "react-hook-form";
 import { Controller } from "react-hook-form";
 
@@ -17,7 +18,7 @@ type FormSelectProps<T> = {
   name: string;
   label: string;
   desc?: string;
-  placeholder: string;
+  placeholder?: string;
 };
 
 const FormSelect = <T extends string>({
@@ -29,6 +30,9 @@ const FormSelect = <T extends string>({
 }: FormSelectProps<T>) => {
   const { control, formState } = useFormContext();
   const error = formState.errors[name]?.message?.toString();
+
+  placeholder ||= `Select ${label}`;
+
   return (
     <div className="w-full flex flex-col gap-2">
       <Label htmlFor={name}>{label}</Label>

@@ -98,3 +98,7 @@ button[data-placeholder] > span {
 ::selection:not(input) {
   @apply bg-muted text-foreground/75;
 }
+
+.max-w-theme {
+  @apply max-w-screen-2xl mx-auto;
+}

@@ -1,0 +1,30 @@
+import { FormDescription, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea, TextareaProps } from "@/components";
+import { useFormContext } from "react-hook-form";
+import { FormError } from "./FormError";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+
+type FormTextareaProps = TextareaProps & {
+  label: string;
+  name: string;
+  desc?: string;
+};
+
+const FormTextarea = ({ label, name, desc, ...props }: FormTextareaProps) => {
+  const [animate] = useAutoAnimate();
+
+  const { register, formState } = useFormContext();
+  const error = formState.errors[name]?.message?.toString();
+
+  return (
+    <div ref={animate} className="flex flex-col gap-2 w-full">
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Textarea {...register(name)} id={name} {...props} />
+      {desc && <FormDescription>{desc}</FormDescription>}
+      {error && <FormError>{error}</FormError>}
+      <FormMessage />
+    </div>
+  );
+};
+
+export { FormTextarea };
