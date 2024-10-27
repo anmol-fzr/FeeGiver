@@ -35,11 +35,8 @@ function OnboardingForm() {
     mutationFn: API.PROFILE.CREATE,
     onSuccess(res) {
       updateProfile(res.data);
-      updateCreds({ isLogin: true });
-
       toast.success(res.message, { id });
-      toast.success("Logged in Successfully");
-      navigate("/");
+      navigate("/auth/login");
     },
     onError(err) {
       toast.error(err.message, { id });
