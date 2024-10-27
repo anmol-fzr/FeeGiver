@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, FormSelect, FormTextarea, PageHeader } from "@/components";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addFeeSchema } from "@/schema";
 import { IReqLogin } from "@/type/req";
-import { useAuthStore } from "@/store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { API } from "@/services";
 import { toast } from "sonner";
 import {
@@ -18,8 +16,8 @@ import {
   convertToWords,
 } from "@/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-
-const updateCreds = useAuthStore.getState().updateCreds;
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 type ILoginForm = IReqLogin;
 const id = "add_fee_form";
@@ -28,33 +26,40 @@ const FeeAddPage = () => {
   const [parent] = useAutoAnimate();
   const navigate = useNavigate();
 
-  const form = useForm<ILoginForm>({
-    resolver: zodResolver(addFeeSchema),
-    defaultValues: async () => {
-      const { data } = await API.PROFILE.GET();
-      const { rollNo, name, batch } = data.details;
-      const clgYear = new Date().getFullYear() - batch;
-      const sem = guessCurrSem(clgYear).toString();
-
-      return { sbCollRef: "", amount: 0, rollNo, name, sem };
-    },
+  const { data, isLoading } = useQuery({
+    queryFn: API.PROFILE.GET,
+    queryKey: ["PROFILE"],
   });
 
+  const form = useForm<ILoginForm>({
+    resolver: zodResolver(addFeeSchema),
+  });
+
+  const hostelFeeAmount = form.watch("hostelFeeAmount");
+  const haveHostelFee = form.watch("haveHostelFee");
+
+  useEffect(() => {
+    if (haveHostelFee === "false") {
+      form.setValue("hostelFeeAmount", 0);
+      return;
+    }
+    form.setValue("hostelFeeAmount", undefined);
+  }, [haveHostelFee]);
+
+  useEffect(() => {
+    if (!isLoading && data?.data?.details) {
+      const { rollNo, name, batch } = data?.data.details;
+      const clgYear = new Date().getFullYear() - batch;
+      const sem = guessCurrSem(clgYear).toString();
+      form.reset({ rollNo, name, sem });
+    }
+  }, [isLoading]);
+
   const { mutate, isPending } = useMutation({
-    mutationFn: API.AUTH.LOGIN,
+    mutationFn: API.FEE.ADD,
     onSuccess(res) {
       toast.success(res.message, { id });
-      const { token, isProfileComplete } = res.data;
-
-      updateCreds({ token, isLogin: isProfileComplete });
-
-      if (isProfileComplete) {
-        navigate("/");
-        return;
-      }
-
-      toast("Please Complete your Profile before proceeding");
-      navigate("/auth/onboard");
+      navigate("/");
     },
     onError(err) {
       console.log(err);
@@ -63,11 +68,16 @@ const FeeAddPage = () => {
   });
 
   function onSubmit(values: ILoginForm) {
+    //console.log(values);
+    //window.navigator.clipboard.writeText(JSON.stringify(values));
     mutate(values);
   }
+  const onError: SubmitErrorHandler<ILoginForm> = (errors) => {
+    console.log(errors);
+  };
+
   const amnt = form.watch("amount");
-  const hostelFee = form.watch("hostelFee");
-  const securityFee = form.watch("securityFee");
+  const securityAmount = form.watch("securityAmount");
   const fine = form.watch("fine");
 
   return (
@@ -78,19 +88,26 @@ const FeeAddPage = () => {
       />
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onError)}
           className="flex flex-col gap-4"
         >
           <div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
             ref={parent}
           >
-            <FormInput name="name" disabled label="Name" placeholder="Rahul" />
+            <FormInput
+              name="name"
+              disabled
+              label="Name"
+              placeholder="Rahul"
+              info="Name is picked from your Profile Settings"
+            />
             <FormInput
               name="rollNo"
               disabled
               label="Roll Number"
               placeholder="*** ***"
+              info="Roll Number is picked from your Profile Settings"
             />
             <FormSelect options={semOptions} name="sem" label="Semester" />
             <FormInput
@@ -115,32 +132,32 @@ const FeeAddPage = () => {
               name="haveHostelFee"
               label="Hostel Fee"
             />
-            {form.watch("haveHostelFee") === "true" && (
+            {haveHostelFee === "true" && (
               <FormInput
-                name="hostelFee"
+                name="hostelFeeAmount"
                 label="Hostel Fee Amount"
                 type="number"
                 desc={
-                  hostelFee > 0
-                    ? convertToWords(hostelFee) + " Rupees Only"
+                  hostelFeeAmount > 0
+                    ? convertToWords(hostelFeeAmount) + " Rupees Only"
                     : ""
                 }
                 placeholder="Hostel Fee Amount"
               />
             )}
             <FormInput
-              name="securityFee"
+              name="securityAmount"
               label="Security Fee Amount"
               placeholder="5000"
               type="number"
               desc={
-                securityFee > 0
-                  ? convertToWords(securityFee) + " Rupees Only"
+                securityAmount > 0
+                  ? convertToWords(securityAmount) + " Rupees Only"
                   : ""
               }
             />
             <FormInput
-              name="fine"
+              name="fineAmount"
               label="Fine Amount"
               placeholder="500"
               type="number"

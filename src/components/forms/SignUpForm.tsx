@@ -17,12 +17,21 @@ import { useMutation } from "@tanstack/react-query";
 import { API } from "@/services";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components";
+import { AlignVerticalSpaceAround } from "lucide-react";
 
 const updateCreds = useAuthStore.getState().updateCreds;
 
 type FormType = z.infer<typeof signUpSchema>;
 
 const id = "signup_form";
+const rand = () => Math.floor(Math.random() * (100 - 1 + 1) + 1);
+
+const getRandAvatar = () => {
+  const id = rand();
+  const uri = `https://avatar.iran.liara.run/public/${id}`;
+  return uri;
+};
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -42,9 +51,7 @@ const SignUpForm = () => {
   const form = useForm<FormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: "ainsa2279@gmail.com",
-      password: "Sbs@123#",
-      confirmPassword: "Sbs@123#",
+      image: getRandAvatar(),
     },
   });
 
@@ -52,10 +59,18 @@ const SignUpForm = () => {
     const payload = {
       email: values.email,
       password: values.password,
+      avatar: values.image,
     };
     toast.loading("Registering User ...", { id });
     mutate(payload);
   }
+
+  const avatar = form.watch("image");
+  const name = form.watch("email")?.toString()?.slice(0, 2)?.toUpperCase();
+
+  const changeAvatar = () => {
+    form.setValue("image", getRandAvatar());
+  };
 
   return (
     <Card className="mx-auto w-full max-w-md">
@@ -68,6 +83,20 @@ const SignUpForm = () => {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex gap-6">
+              <Avatar className=" !w-12 !h-12 !aspect-square">
+                <AvatarImage src={avatar} alt={name} />
+                <AvatarFallback>{name}</AvatarFallback>
+              </Avatar>
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                onClick={changeAvatar}
+              >
+                Change
+              </Button>
+            </div>
             <FormInput
               name="email"
               label="Email address"

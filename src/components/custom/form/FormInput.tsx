@@ -8,9 +8,10 @@ type FormInputProps = InputProps & {
   label: string;
   name: string;
   desc?: string;
+  info?: string;
 };
 
-const FormInput = ({ label, name, desc, ...props }: FormInputProps) => {
+const FormInput = ({ label, name, desc, info, ...props }: FormInputProps) => {
   const [animate] = useAutoAnimate();
 
   const { register, formState } = useFormContext();
@@ -18,8 +19,14 @@ const FormInput = ({ label, name, desc, ...props }: FormInputProps) => {
 
   return (
     <div ref={animate} className="flex flex-col gap-2 w-full">
-      <FormLabel htmlFor={name}>{label}</FormLabel>
-      <Input {...register(name)} id={name} {...props} />
+      <FormLabel htmlFor={name} info={info}>
+        {label}
+      </FormLabel>
+      <Input
+        {...register(name, { valueAsNumber: props.type === "number" })}
+        id={name}
+        {...props}
+      />
       {desc && <FormDescription>{desc}</FormDescription>}
       {error && <FormError>{error}</FormError>}
       <FormMessage />

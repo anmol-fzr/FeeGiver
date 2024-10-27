@@ -4,6 +4,7 @@ import {
   Button,
   ThemeToggle,
   Avatar,
+  AvatarImage,
   AvatarFallback,
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +29,9 @@ const Navbar = () => {
     refetchOnWindowFocus: false,
   });
 
-  const name = data?.data.details.name.slice(0, 2).toUpperCase();
+  const avatar = data?.data.avatar;
+  const fullName = data?.data.details.name;
+  const name = fullName?.slice(0, 2).toUpperCase();
 
   return (
     <nav className="h-14 border-b flex items-center p-4 justify-between gap-4 max-w-theme !z-10">
@@ -41,9 +44,12 @@ const Navbar = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="link" size="icon">
               <Avatar className="cursor-pointer">
-                {/*
-                <AvatarImage src="https://avatars.githubusercontent.com/u/88301047?v=4" />
-                */}
+                <AvatarImage
+                  src={
+                    avatar ??
+                    `https://avatar.iran.liara.run/public/${fullName?.length}`
+                  }
+                />
                 <AvatarFallback>{name}</AvatarFallback>
               </Avatar>
             </Button>

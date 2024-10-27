@@ -5,7 +5,7 @@ import { IResGetProfile, IResOnBoard, IResUpdateProfile } from "@/type/res";
 const uri = `/profile`;
 
 const PROFILE = {
-  GET: () => axiosInst.get<IResGetProfile>(uri),
+  GET: () => axiosInst.get<IResGetProfile, IResGetProfile>(uri),
   CREATE: (data: IReqCreateProfile) =>
     axiosInst.post<IReqCreateProfile, IResOnBoard>(uri, data),
   UPDATE: (data: IReqUpdateProfile) =>

@@ -30,4 +30,14 @@ const formatCurrency = (n: number) => {
   return formatter.format(n);
 };
 
-export { guessCurrSem, formatOrdinals, formatCurrency };
+function formatDateTime(dateTime: Date | string): string {
+  return new Intl.DateTimeFormat("en-IN", {
+    dateStyle: "full",
+    timeStyle: "medium",
+    timeZone: "Asia/Kolkata",
+  })
+    .format(new Date(dateTime))
+    .toString();
+}
+
+export { guessCurrSem, formatOrdinals, formatCurrency, formatDateTime };

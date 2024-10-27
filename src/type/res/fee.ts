@@ -1,0 +1,20 @@
+import { IRes } from ".";
+
+type Fee = {
+  _id: string;
+  sbCollRef: string;
+  amount: number;
+  sem: number;
+  feeType: string;
+  hostelFeeAmount: number;
+  securityAmount: number;
+  fineAmount: number;
+  status: "pending" | "accepted" | "rejected";
+  createdAt: string;
+  updatedAt: string;
+};
+
+type IResGetFee = IRes<Fee[]>;
+
+export type { IResGetFee };
+export type { Fee };

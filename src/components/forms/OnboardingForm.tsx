@@ -32,7 +32,7 @@ function OnboardingForm() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: API.AUTH.ONBOARD,
+    mutationFn: API.PROFILE.CREATE,
     onSuccess(res) {
       updateProfile(res.data);
       updateCreds({ isLogin: true });

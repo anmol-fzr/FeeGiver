@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   CheckCircledIcon,
   Cross2Icon,
@@ -30,41 +30,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { TableColHeader } from "@/components";
-import { formatCurrency, formatOrdinals } from "@/utils";
+import { formatCurrency, formatDateTime, formatOrdinals } from "@/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useQuery } from "@tanstack/react-query";
+import { API } from "@/services";
+import { Fee } from "@/type/res";
 
-type Status = "pending" | "accepted" | "rejected";
-type Data = {
-  sem: number;
-  sbCollectRef: string;
-  amount: number;
-  feeType: string;
-  status: Status;
-};
-
-const feeData: Data[] = [
-  {
-    sem: 4,
-    sbCollectRef: "ABZ1231234",
-    amount: 99764,
-    feeType: "PMSS 40",
-    status: "pending",
-  },
-  {
-    sem: 3,
-    sbCollectRef: "ABC1231234",
-    amount: 59784,
-    feeType: "PMSS 60",
-    status: "accepted",
-  },
-  {
-    sem: 1,
-    sbCollectRef: "AB1231234",
-    amount: 89999,
-    feeType: "Full Fee",
-    status: "rejected",
-  },
-];
+type Status = Fee["status"];
 
 const colorXStatus: Record<Status, string> = {
   pending:
@@ -74,14 +46,14 @@ const colorXStatus: Record<Status, string> = {
   rejected: "bg-red-100 text-red-700 hover:bg-red-100 hover:text-red-700",
 };
 
-const columns: ColumnDef<Data>[] = [
+const columns: ColumnDef<Fee>[] = [
   {
     accessorKey: "sem",
     header: ({ column }) => <TableColHeader column={column} title="Semester" />,
     cell: ({ row }) => <p>{formatOrdinals(row.getValue("sem"))}</p>,
   },
   {
-    accessorKey: "sbCollectRef",
+    accessorKey: "sbCollRef",
     header: ({ column }) => (
       <TableColHeader column={column} title="SB Collect Ref Number" />
     ),
@@ -103,6 +75,17 @@ const columns: ColumnDef<Data>[] = [
       return (
         <Badge className={colorXStatus[status]}>{status.toUpperCase()}</Badge>
       );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <TableColHeader column={column} title="Submitted" />
+    ),
+    cell: ({ row }) => {
+      const date = row.getValue("createdAt");
+      const formatted = formatDateTime(date);
+      return <div className="font-medium">{formatted}</div>;
     },
   },
 ];
@@ -130,18 +113,13 @@ const FeesTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const [data, setData] = useState(feeData);
-
-  //useEffect(() => {
-  //  const intId = setInterval(() => {
-  //    setData((data) => (data.length > 0 ? [] : feeData));
-  //  }, 1000);
-  //
-  //  return () => clearInterval(intId);
-  //}, []);
+  const { isLoading, data } = useQuery({
+    queryFn: API.FEE.GET,
+    queryKey: ["FEE"],
+  });
 
   const table = useReactTable({
-    data,
+    data: isLoading ? [] : data?.data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

@@ -5,3 +5,4 @@ export * from "./table";
 export * from "./home";
 export * from "./Navbar";
 export * from "./Link";
+export * from "./Tipper";

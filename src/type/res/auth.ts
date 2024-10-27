@@ -15,6 +15,7 @@ type Root =
 interface StudentProfile {
   _id: string;
   email: string;
+  avatar: string;
   isVerified: boolean;
   details: Details;
 }

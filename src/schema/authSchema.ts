@@ -28,6 +28,7 @@ const loginSchema = z.object({
 const signUpSchema = z
   .object({
     email: z.string().email(),
+    image: z.string().optional(),
     password: passSchema,
     confirmPassword: passSchema,
   })
@@ -41,13 +42,13 @@ const stuOnboardSchema = z.object({
   mobile: z.string().length(10, "Mobile Number must be of exact 10 digits"),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Mobile Number" }),
-  admissionNo: z
+  admissionNo: z.coerce
     .string()
     .min(4, "Admission Number must be of atleast 4 digits")
     .max(8, "Admission Number must be of atmost 8 digits"),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Admission Number" }),
-  rollNo: z.string().min(4).max(8),
+  rollNo: z.coerce.string().min(4).max(8),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Roll Number" }),
   batch: z.string().min(4).max(4),
