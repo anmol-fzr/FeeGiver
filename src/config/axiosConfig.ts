@@ -8,8 +8,10 @@ const validateStatus = (status: number) => {
   return status >= 200 && status < 300;
 };
 
+const baseURL = process.env.VITE_API_URL
+
 const axiosInst = axios.create({
-  baseURL: "http://192.168.29.57:3000/student",
+  baseURL,
   timeout: 50_000,
   validateStatus,
 });
