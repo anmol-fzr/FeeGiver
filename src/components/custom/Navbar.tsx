@@ -34,7 +34,7 @@ const Navbar = () => {
   const name = fullName?.slice(0, 2).toUpperCase();
 
   return (
-    <nav className="h-14 border-b flex items-center p-4 justify-between gap-4 max-w-theme !z-10">
+    <nav className="h-16 border-b flex items-center p-4 justify-between gap-4 max-w-theme !z-10">
       <Link to="/">Home</Link>
 
       <div className="flex items-center gap-4">
