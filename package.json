@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port 5174",
+    "dev": "bun run check && vite --host --port 5174",
     "build": "vite build",
+    "check": "bun run ./check.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -30,6 +31,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "firebase": "^11.0.1",
     "framer-motion": "^11.11.9",
     "lucide-react": "^0.453.0",
     "next-themes": "^0.3.0",
