@@ -8,7 +8,7 @@ const validateStatus = (status: number) => {
   return status >= 200 && status < 300;
 };
 
-const baseURL = process.env.VITE_API_URL
+const baseURL = import.meta.env.VITE_API_URL;
 
 const axiosInst = axios.create({
   baseURL,
