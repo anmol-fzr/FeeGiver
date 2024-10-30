@@ -15,7 +15,9 @@ const useProfileStore = create<IProfileStore>()(
   persist(
     (set, get) => ({
       profile,
+      isFormOpen: false,
 
+      updateIsFormOpen: (isOpen) => set({ isFormOpen: isOpen }),
       updateProfile: (creds) =>
         set({ profile: { ...get().profile, ...creds } }),
       resetProfile: () => set({ profile }),
