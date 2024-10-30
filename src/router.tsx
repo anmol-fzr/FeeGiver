@@ -6,6 +6,7 @@ import {
   NotFoundPage,
   ProfilePage,
   AccountPage,
+  FeePage,
 } from "./pages";
 import { HomePage, FeeAddPage } from "./pages";
 import { AuthLayout, MainLayout, SettingsLayout } from "./layouts";
@@ -21,6 +22,7 @@ const Router = () => {
       <Route element={<MainLayout />}>
         <Route path="" element={<HomePage />} />
         <Route path="fee/add" element={<FeeAddPage />} />
+        <Route path="fee/:feeId" element={<FeePage />} />
         <Route path="/settings" element={<SettingsLayout />}>
           <Route path="profile" element={<ProfilePage />} />
           <Route path="account" element={<AccountPage />} />
