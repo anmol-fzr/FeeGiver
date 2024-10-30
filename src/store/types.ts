@@ -16,11 +16,13 @@ type IAuthStoreActions = {
 type IAuthStore = IAuthStoreState & IAuthStoreActions;
 
 type IProfileStoreState = {
+  isFormOpen: boolean;
   profile: StudentProfileDetails;
 };
 
 type IProfileStoreActions = {
   updateProfile: (creds: Partial<IProfileStoreState["profile"]>) => void;
+  updateIsFormOpen: (isOpen: IProfileStoreState["isFormOpen"]) => void;
   resetProfile: () => void;
 };
 

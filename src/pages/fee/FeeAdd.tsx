@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, FormSelect, FormTextarea, PageHeader } from "@/components";
-import { SubmitErrorHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addFeeSchema } from "@/schema";
-import { IReqLogin } from "@/type/req";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { API } from "@/services";
 import { toast } from "sonner";
@@ -18,20 +17,27 @@ import {
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useProfileStore } from "@/store";
 
-type ILoginForm = IReqLogin;
 const id = "add_fee_form";
 
 const FeeAddPage = () => {
+  const isFormOpen = useProfileStore((state) => state.isFormOpen);
   const [parent] = useAutoAnimate();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isFormOpen) {
+      navigate("/");
+    }
+  }, [isFormOpen]);
+
   const { data, isLoading } = useQuery({
-    queryFn: API.PROFILE.GET,
     queryKey: ["PROFILE"],
+    queryFn: API.PROFILE.GET,
   });
 
-  const form = useForm<ILoginForm>({
+  const form = useForm({
     resolver: zodResolver(addFeeSchema),
   });
 
@@ -67,14 +73,7 @@ const FeeAddPage = () => {
     },
   });
 
-  function onSubmit(values: ILoginForm) {
-    //console.log(values);
-    //window.navigator.clipboard.writeText(JSON.stringify(values));
-    mutate(values);
-  }
-  const onError: SubmitErrorHandler<ILoginForm> = (errors) => {
-    console.log(errors);
-  };
+  const onSubmit = (values: any) => mutate(values);
 
   const amnt = form.watch("amount");
   const securityAmount = form.watch("securityAmount");
@@ -88,7 +87,7 @@ const FeeAddPage = () => {
       />
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit, onError)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
           <div
