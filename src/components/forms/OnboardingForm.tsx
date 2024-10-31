@@ -12,15 +12,14 @@ import { useMutation } from "@tanstack/react-query";
 import { stuOnboardSchema } from "@/schema/authSchema";
 import { API } from "@/services";
 import { toast } from "sonner";
-import { useAuthStore, useProfileStore } from "@/store";
-import { IReqOnBoard } from "@/type/req";
+import { useProfileStore } from "@/store";
+import { IReqCreateProfile } from "@/type/req";
 import { ProfileForm } from "./ProfileForm";
 import { useCallback } from "react";
 
 const updateProfile = useProfileStore.getState().updateProfile;
-const updateCreds = useAuthStore.getState().updateCreds;
 
-type ILoginForm = IReqOnBoard;
+type ILoginForm = IReqCreateProfile;
 
 const id = "onboarding_form";
 
@@ -44,8 +43,10 @@ function OnboardingForm() {
   });
 
   const onSubmit = useCallback((values: ILoginForm) => {
-    const payload = {};
-    Object.keys(values).forEach((key) => {
+    const payload = {} as ILoginForm;
+
+    Object.keys(values).forEach((k) => {
+      const key = k as keyof ILoginForm;
       payload[key] = values[key].toString();
     });
 

@@ -1,3 +1,6 @@
+import { create } from "zustand";
+import { envs } from "./envs";
+
 const guessCurrSem = (collegeYear: number) => {
   const currentDate = new Date();
   const month = currentDate.getMonth();
@@ -40,4 +43,29 @@ function formatDateTime(dateTime: Date | string): string {
     .toString();
 }
 
-export { guessCurrSem, formatOrdinals, formatCurrency, formatDateTime };
+const getRand = (a: number, b: number) =>
+  Math.floor(Math.random() * (b - a + a) + a);
+
+function registerStore(store: ReturnType<typeof create>, name: string) {
+  if (
+    typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION__?.connect &&
+    envs.isDev
+  ) {
+    const connection = window?.__REDUX_DEVTOOLS_EXTENSION__?.connect({
+      name,
+    });
+    connection?.init(store.getState());
+    store.subscribe((newState) => connection?.send(name, newState));
+    //console.info(`${name} Registered & Subscribed in Redux DevTools 🔧`);
+  }
+}
+
+export {
+  guessCurrSem,
+  formatOrdinals,
+  formatCurrency,
+  formatDateTime,
+  getRand,
+  registerStore,
+};

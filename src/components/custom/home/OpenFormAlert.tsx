@@ -8,7 +8,7 @@ const OpenFormAlert = ({ name }: OpenFormAlertProps) => {
   return (
     <Alert
       variant="caution"
-      className="w-full flex items-end justify-between gap-6 flex-wrap animate-in fade-in"
+      className="w-full flex items-end justify-between gap-6 flex-wrap animate-in fade-in mb-10"
     >
       <div>
         <AlertTitle> 📢 Attention {name}!</AlertTitle>

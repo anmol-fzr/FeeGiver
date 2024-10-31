@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
-import { FormInput } from "@/components";
+import { Form, FormLabel } from "@/components/ui/form";
+import { FormInput, ProfileFormFields, Tipper } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/schema/authSchema";
@@ -18,7 +18,8 @@ import { API } from "@/services";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components";
-import { AlignVerticalSpaceAround } from "lucide-react";
+import { ShuffleIcon } from "lucide-react";
+import { useEffect } from "react";
 
 const updateCreds = useAuthStore.getState().updateCreds;
 
@@ -34,14 +35,28 @@ const getRandAvatar = () => {
 };
 
 const SignUpForm = () => {
+  const isOnboarding =
+    useAuthStore((state) => state.creds.authState) === "onboarding";
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isOnboarding) {
+      navigate("/auth/login");
+    }
+  }, [isOnboarding]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: API.AUTH.SIGNUP,
     onSuccess(res) {
+      updateCreds({
+        token: res.data.token,
+        authState: "logged-in",
+      });
+
       toast.success(res.message, { id });
-      updateCreds({ token: res.data.token });
-      navigate("/auth/onboard");
+
+      navigate("/");
     },
     onError(res) {
       toast.error(res.message, { id });
@@ -51,87 +66,73 @@ const SignUpForm = () => {
   const form = useForm<FormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      image: getRandAvatar(),
+      email: searchParams.get("email"),
+      avatar: getRandAvatar(),
     },
   });
 
   function onSubmit(values: FormType) {
-    const payload = {
-      email: values.email,
-      password: values.password,
-      avatar: values.image,
-    };
     toast.loading("Registering User ...", { id });
-    mutate(payload);
+    mutate(values);
   }
 
-  const avatar = form.watch("image");
+  const avatar = form.watch("avatar");
   const name = form.watch("email")?.toString()?.slice(0, 2)?.toUpperCase();
 
   const changeAvatar = () => {
-    form.setValue("image", getRandAvatar());
+    form.setValue("avatar", getRandAvatar());
   };
 
+  console.log(form.formState.errors);
+
   return (
-    <Card className="mx-auto w-full max-w-md">
+    <Card className="mx-auto w-full max-w-lg">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign up</CardTitle>
+        <CardTitle className="text-2xl">Register</CardTitle>
         <CardDescription>
-          Enter your email below to create a new Account
+          Enter your details below to register yourself on FeeCheckr
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex gap-6">
-              <Avatar className=" !w-12 !h-12 !aspect-square">
-                <AvatarImage src={avatar} alt={name} />
-                <AvatarFallback>{name}</AvatarFallback>
-              </Avatar>
-              <Button
-                variant="outline"
-                size="sm"
-                type="button"
-                onClick={changeAvatar}
-              >
-                Change
-              </Button>
+          <form
+            onSubmit={form.handleSubmit(onSubmit, console.log)}
+            className="flex flex-col gap-4"
+          >
+            <div className="flex flex-col  gap-4 ">
+              <div className="flex flex-col gap-4 w-full">
+                <div className="flex flex-col gap-1 relative mx-auto !aspect-square">
+                  <Avatar className=" !w-32 !h-32 !aspect-square relative">
+                    <AvatarImage
+                      src={avatar}
+                      alt={name}
+                      width={44}
+                      className="!z-[8]"
+                      height={44}
+                    />
+                    <AvatarFallback>{name}</AvatarFallback>
+                  </Avatar>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={changeAvatar}
+                    className="absolute !z-[10] bottom-0 right-0 rounded-full"
+                  >
+                    <ShuffleIcon />
+                  </Button>
+                </div>
+                <FormInput
+                  name="email"
+                  label="Email address"
+                  disabled
+                  placeholder="student@sbsstc.in"
+                />
+                <ProfileFormFields />
+              </div>
             </div>
-            <FormInput
-              name="email"
-              label="Email address"
-              placeholder="student@sbsstc.in"
-            />
-            <FormInput
-              name="password"
-              label="Password"
-              type="password"
-              desc={`Password must contain atleast 1 lowercase, uppercase, number and a special character`}
-              placeholder="*** ***"
-            />
-            <FormInput
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              placeholder="*** ***"
-            />
-            <div className="flex flex-col gap-2">
-              <Button type="submit" className="w-full" disabled={isPending}>
-                Sign Up
-              </Button>
-              <p className="text-center">
-                Already have an account?
-                <Link
-                  to="/auth/login"
-                  className={buttonVariants({
-                    variant: "link",
-                    className: "!pl-1 !p-0",
-                  })}
-                >
-                  Log In
-                </Link>
-              </p>
-            </div>
+            <Button type="submit" className="w-full mt-6" disabled={isPending}>
+              Register
+            </Button>
           </form>
         </Form>
       </CardContent>

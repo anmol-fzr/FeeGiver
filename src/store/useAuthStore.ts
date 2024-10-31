@@ -2,11 +2,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { IAuthStore } from "./types";
 import { createJSONStorage } from "zustand/middleware";
+import { registerStore } from "@/utils";
 
 const creds: IAuthStore["creds"] = {
-  isLogin: false,
   token: "",
   email: "",
+  authState: "logged-out",
 };
 
 const useAuthStore = create<IAuthStore>()(
@@ -19,5 +20,7 @@ const useAuthStore = create<IAuthStore>()(
     { name: "useAuthStore", storage: createJSONStorage(() => localStorage) },
   ),
 );
+
+registerStore(useAuthStore, "useAuthStore");
 
 export { useAuthStore };

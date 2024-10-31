@@ -27,31 +27,7 @@ const ProfileForm = <T extends FieldValues>({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormInput name="name" label="Name" placeholder="Rahul" />
-        <FormInput
-          name="mobile"
-          label="Mobile Number"
-          type="tel"
-          placeholder="9879879876"
-        />
-        <FormInput
-          name="admissionNo"
-          label="Admission Number"
-          type="number"
-          placeholder={`${year}****`}
-        />
-        <FormInput
-          name="rollNo"
-          label="Roll Number"
-          type="number"
-          placeholder={`${batch}****`}
-        />
-        <FormSelect
-          options={yearOptions}
-          name="batch"
-          label="Batch"
-          placeholder="Select Batch"
-        />
+        <ProfileFormFields />
         <Button type="submit" disabled={isPending}>
           {buttonText}
         </Button>
@@ -60,4 +36,36 @@ const ProfileForm = <T extends FieldValues>({
   );
 };
 
-export { ProfileForm };
+const ProfileFormFields = () => {
+  return (
+    <>
+      <FormInput name="name" label="Name" placeholder="Rahul" />
+      <FormInput
+        name="mobile"
+        label="Mobile Number"
+        type="tel"
+        placeholder="9879879876"
+      />
+      <FormInput
+        name="admissionNo"
+        label="Admission Number"
+        type="number"
+        placeholder={`${year}****`}
+      />
+      <FormInput
+        name="rollNo"
+        label="Roll Number"
+        type="number"
+        placeholder={`${batch}****`}
+      />
+      <FormSelect
+        options={yearOptions}
+        name="batch"
+        label="Batch"
+        placeholder="Select Batch"
+      />
+    </>
+  );
+};
+
+export { ProfileForm, ProfileFormFields };

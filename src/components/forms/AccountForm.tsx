@@ -3,6 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, ButtonProps } from "@/components";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
+import { getRand } from "@/utils";
 
 type BaseFormProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -18,6 +19,10 @@ type BaseFormProps<T extends FieldValues> = {
  * Used in LoginForm and UpdateAccountForm
  **/
 
+const year = new Date().getFullYear();
+const rand = getRand(1000, 5000);
+const emailPlaceholder = `${year}${rand}@sbsstc.in`;
+
 const AccountForm = <T extends FieldValues>({
   form,
   onSubmit,
@@ -25,6 +30,7 @@ const AccountForm = <T extends FieldValues>({
   buttonText,
   showSignUp = false,
   buttonProps,
+  isOtpSent = false,
 }: BaseFormProps<T>) => {
   const submit = form.handleSubmit(onSubmit);
   return (
@@ -33,14 +39,9 @@ const AccountForm = <T extends FieldValues>({
         <FormInput
           name="email"
           label="Email address"
-          placeholder="student@sbsstc.in"
+          placeholder={emailPlaceholder}
         />
-        <FormInput
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="*** ***"
-        />
+        <FormInput name="otp" label="OTP" type="number" placeholder="123456" />
         <div className="space-y-2">
           <Button
             type="submit"

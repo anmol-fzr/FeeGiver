@@ -1,6 +1,7 @@
 const env = import.meta.env;
 
 const envs = {
+  isDev: env.DEV,
   SERVER_URL: env.VITE_API_URL,
   FIREBASE: {
     API_KEY: env.VITE_FIREBASE_API_KEY,

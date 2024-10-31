@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
-  const isLogin = useAuthStore((state) => state.creds.isLogin);
+  const isLogin =
+    useAuthStore((state) => state.creds.authState) === "logged-in";
   const navigate = useNavigate();
 
   useEffect(() => {

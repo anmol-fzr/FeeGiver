@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { orgEmailRegex } from "@/utils";
 
-const isNumValid = (val: number) => !Number.isNaN(val);
+//const isNumValid = (val: number) => !Number.isNaN(val);
 
 const passSchema = z
   .string()
@@ -20,40 +21,50 @@ const passSchema = z
       "Password must contain atleast on of these special characters !@#$%^&*",
   });
 
+const emailSchema = z
+  .string()
+  .email()
+  .regex(orgEmailRegex, "Please provived Email given by College");
+
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: emailSchema,
+  otp: z.coerce.number().optional().nullable(),
+  //password: z.string(),
 });
 
-const signUpSchema = z
-  .object({
-    email: z.string().email(),
-    image: z.string().optional(),
-    password: passSchema,
-    confirmPassword: passSchema,
-  })
-  .refine((values) => values.password === values.confirmPassword, {
-    message: "Passwords must match!",
-    path: ["confirmPassword"],
-  });
-
 const stuOnboardSchema = z.object({
-  name: z.string().min(2),
-  mobile: z.string().length(10, "Mobile Number must be of exact 10 digits"),
+  name: z
+    .string({ message: "Enter a valid Name" })
+    .min(2, "Enter a Valid Name"),
+  mobile: z.coerce
+    .string()
+    .length(10, "Mobile Number must be of exact 10 digits"),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Mobile Number" }),
   admissionNo: z.coerce
     .string()
-    .min(4, "Admission Number must be of atleast 4 digits")
-    .max(8, "Admission Number must be of atmost 8 digits"),
+    .min(8, "Admission Number must be of 8 digits")
+    .max(8, "Admission Number must be of 8 digits"),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Admission Number" }),
-  rollNo: z.coerce.string().min(4).max(8),
+  rollNo: z.coerce
+    .string()
+    .min(6, "Roll Number must be of 6 digits")
+    .max(6, "Roll Number must be of 6 digits"),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Roll Number" }),
-  batch: z.string().min(4).max(4),
+  batch: z.string({ required_error: "Batch is required" }).min(4).max(4),
   //.transform(Number)
   //.refine(isNumValid, { message: "Invalid Batch Year" }),
 });
+
+const signUpSchema = z
+  .object({
+    email: emailSchema,
+    image: z.string().optional(),
+    //password: passSchema,
+    //confirmPassword: passSchema,
+  })
+  .and(stuOnboardSchema);
 
 export { loginSchema, signUpSchema, stuOnboardSchema };

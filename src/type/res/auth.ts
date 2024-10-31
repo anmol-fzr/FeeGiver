@@ -2,13 +2,11 @@ import type { IRes } from "@/type/res";
 
 type Root =
   | ({
-      isProfileComplete: true;
+      isNewUser: true;
       token: string;
-      email: string;
     } & StudentProfile)
   | {
-      isProfileComplete: false;
-      email: string;
+      isNewUser: false;
       token: string;
     };
 

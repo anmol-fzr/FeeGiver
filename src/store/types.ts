@@ -4,7 +4,7 @@ type IAuthStoreState = {
   creds: {
     token: string;
     email: string;
-    isLogin: boolean;
+    authState: "logged-in" | "logged-out" | "onboarding";
   };
 };
 

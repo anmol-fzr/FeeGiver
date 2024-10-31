@@ -6,3 +6,4 @@ export * from "./home";
 export * from "./Navbar";
 export * from "./Link";
 export * from "./Tipper";
+export * from "./Badge";

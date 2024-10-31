@@ -27,11 +27,11 @@ const HomePage = () => {
     refetchOnWindowFocus: false,
   });
 
-  const name = data?.data.details.name;
+  const name = data?.data.name;
 
   return (
     <div className="w-full space-y-4" ref={animateRef}>
-      {isFormOpen && <OpenFormAlert name={name} />}
+      {isFormOpen && name && <OpenFormAlert name={name} />}
       <PageHeader
         title={`Welcome ${name}`}
         desc="These are your Previously filled fee data"

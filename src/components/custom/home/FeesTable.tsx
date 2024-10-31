@@ -15,6 +15,7 @@ import {
   Badge,
   TableFacetedFilter,
   Button,
+  Link,
 } from "@/components/";
 import {
   ColumnDef,
@@ -29,11 +30,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { TableColHeader } from "@/components";
-import { formatCurrency, formatDateTime, formatOrdinals } from "@/utils";
+import { formatCurrency, formatOrdinals } from "@/utils";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useQuery } from "@tanstack/react-query";
 import { API } from "@/services";
 import { Fee } from "@/type/res";
+import { TableColCreatedAt } from "../table/TableCells";
+import { useNavigate } from "react-router-dom";
+import { EyeIcon } from "lucide-react";
 
 type Status = Fee["status"];
 
@@ -44,6 +48,24 @@ const colorXStatus: Record<Status, string> = {
     "bg-green-100 text-green-700 hover:bg-green-100 hover:text-green-700",
   rejected: "bg-red-100 text-red-700 hover:bg-red-100 hover:text-red-700",
 };
+
+const statuses = [
+  {
+    value: "pending",
+    label: "Pending",
+    icon: QuestionMarkCircledIcon,
+  },
+  {
+    value: "accepted",
+    label: "Accepted",
+    icon: CheckCircledIcon,
+  },
+  {
+    value: "rejected",
+    label: "Rejected",
+    icon: CrossCircledIcon,
+  },
+];
 
 const columns: ColumnDef<Fee>[] = [
   {
@@ -70,7 +92,7 @@ const columns: ColumnDef<Fee>[] = [
     accessorKey: "status",
     header: ({ column }) => <TableColHeader column={column} title="Status" />,
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status = row.original.status;
       return (
         <Badge className={colorXStatus[status]}>{status.toUpperCase()}</Badge>
       );
@@ -81,29 +103,17 @@ const columns: ColumnDef<Fee>[] = [
     header: ({ column }) => (
       <TableColHeader column={column} title="Submitted" />
     ),
-    cell: ({ row }) => {
-      const date = row.getValue("createdAt");
-      const formatted = formatDateTime(date);
-      return <div className="font-medium">{formatted}</div>;
-    },
-  },
-];
-
-const statuses = [
-  {
-    value: "pending",
-    label: "Pending",
-    icon: QuestionMarkCircledIcon,
+    cell: TableColCreatedAt,
   },
   {
-    value: "accepted",
-    label: "Accepted",
-    icon: CheckCircledIcon,
-  },
-  {
-    value: "rejected",
-    label: "Rejected",
-    icon: CrossCircledIcon,
+    accessorKey: "View",
+    header: ({ column }) => <TableColHeader column={column} title="View" />,
+    cell: ({ row }) => (
+      <Link variant="ghost" size="sm" to={`/fee/${row.original._id}`}>
+        <EyeIcon />
+        View
+      </Link>
+    ),
   },
 ];
 
@@ -118,7 +128,7 @@ const FeesTable = () => {
   });
 
   const table = useReactTable({
-    data: isLoading ? [] : data?.data,
+    data: !isLoading && data?.data ? data.data : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -199,7 +209,7 @@ const FeesTable = () => {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No Fee Data Submitted till now.
                 </TableCell>
               </TableRow>
             )}

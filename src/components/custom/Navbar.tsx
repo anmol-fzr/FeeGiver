@@ -29,8 +29,8 @@ const Navbar = () => {
     refetchOnWindowFocus: false,
   });
 
-  const avatar = data?.data.avatar;
-  const fullName = data?.data.details.name;
+  const avatar = data?.data?.avatar;
+  const fullName = data?.data?.name;
   const name = fullName?.slice(0, 2).toUpperCase();
 
   return (

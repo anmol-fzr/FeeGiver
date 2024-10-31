@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { IReqUpdateProfile } from "@/type/req";
 
 const id = "update_profile_form";
 
@@ -13,6 +14,7 @@ const UpdateProfileForm = () => {
   const { data, isLoading } = useQuery({
     queryFn: API.PROFILE.GET,
     queryKey: ["PROFILE"],
+    refetchOnWindowFocus: false,
   });
 
   const form = useForm({
@@ -20,11 +22,8 @@ const UpdateProfileForm = () => {
   });
 
   useEffect(() => {
-    if (!isLoading && data?.data?.details) {
-      const payload = {};
-      for (const [key, value] of Object.entries(data?.data?.details)) {
-        payload[key] = value.toString();
-      }
+    if (!isLoading && data?.data) {
+      const payload = data?.data;
       form.reset(payload);
     }
   }, [isLoading]);
@@ -40,10 +39,10 @@ const UpdateProfileForm = () => {
     },
   });
 
-  // FIX Later
-  function onSubmit(data: any) {
-    const payload: Record<string, any> = {};
-    Object.keys(form.formState.dirtyFields).forEach((key) => {
+  function onSubmit(data: IReqUpdateProfile) {
+    const payload = {} as IReqUpdateProfile;
+    Object.keys(form.formState.dirtyFields).forEach((k) => {
+      const key = k as keyof IReqUpdateProfile;
       payload[key] = data[key];
     });
     mutate(payload);

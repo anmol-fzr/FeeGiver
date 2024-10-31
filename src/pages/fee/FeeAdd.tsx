@@ -53,8 +53,8 @@ const FeeAddPage = () => {
   }, [haveHostelFee]);
 
   useEffect(() => {
-    if (!isLoading && data?.data?.details) {
-      const { rollNo, name, batch } = data?.data.details;
+    if (!isLoading && data?.data) {
+      const { rollNo, name, batch } = data?.data;
       const clgYear = new Date().getFullYear() - batch;
       const sem = guessCurrSem(clgYear).toString();
       form.reset({ rollNo, name, sem });

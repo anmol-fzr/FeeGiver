@@ -9,7 +9,6 @@ import {
   FormDescription,
 } from "@/components";
 import { Option } from "@/type";
-import { SelectProps } from "@radix-ui/react-select";
 import { useFormContext } from "react-hook-form";
 import { Controller } from "react-hook-form";
 

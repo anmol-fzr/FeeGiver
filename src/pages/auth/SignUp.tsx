@@ -3,7 +3,7 @@ import { Page } from "@/components";
 
 const SignUpPage = () => {
   return (
-    <Page className="h-[100dvh]">
+    <Page className="min-h-[100dvh]">
       <SignUpForm />
     </Page>
   );

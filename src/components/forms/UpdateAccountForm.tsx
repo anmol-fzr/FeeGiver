@@ -4,7 +4,7 @@ import { API } from "@/services";
 import { useAuthStore } from "@/store";
 import { IReqLogin } from "@/type/req";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,6 @@ type ILoginForm = IReqLogin;
 const id = "login_form";
 
 const UpdateAccountForm = () => {
-  const email = useAuthStore((state) => state.creds.email);
   const navigate = useNavigate();
 
   const form = useForm<ILoginForm>({
@@ -25,9 +24,19 @@ const UpdateAccountForm = () => {
     disabled: true,
   });
 
+  const { data, isLoading } = useQuery({
+    queryFn: API.PROFILE.GET,
+    queryKey: ["PROFILE"],
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
   useEffect(() => {
-    form.reset({ email });
-  }, [email]);
+    if (!isLoading && data?.data) {
+      const payload = data?.data;
+      form.reset(payload);
+    }
+  }, [isLoading]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: API.AUTH.LOGIN,

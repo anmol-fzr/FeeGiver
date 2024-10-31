@@ -1,8 +1,4 @@
-import {
-  loginSchema,
-  signUpSchema,
-  stuOnboardSchema,
-} from "@/schema/authSchema";
+import { loginSchema, signUpSchema } from "@/schema/authSchema";
 import { z } from "zod";
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
