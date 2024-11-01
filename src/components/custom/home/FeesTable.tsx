@@ -99,6 +99,16 @@ const columns: ColumnDef<Fee>[] = [
     },
   },
   {
+    accessorKey: "rejection",
+    header: ({ column }) => (
+      <TableColHeader column={column} title="Rejection Reason" />
+    ),
+    cell: ({ row }) => {
+      const rejection = row.original.rejection;
+      return <p className="text-red-700 hover:text-red-700">{rejection}</p>;
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <TableColHeader column={column} title="Submitted" />

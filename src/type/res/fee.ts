@@ -9,6 +9,7 @@ type Fee = {
   hostelFeeAmount: number;
   securityAmount: number;
   fineAmount: number;
+  rejection: string;
   status: "pending" | "accepted" | "rejected";
   createdAt: string;
   updatedAt: string;
