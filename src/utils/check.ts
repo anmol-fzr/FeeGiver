@@ -1,4 +1,5 @@
-import { envSchema } from "./src/schema";
+import { envSchema } from "@/schema";
+import { genTypeFile } from "./gen-types";
 
 const rawEnv = import.meta.env;
 
@@ -6,6 +7,7 @@ envSchema
   .parseAsync(rawEnv)
   .then(() => {
     console.log("envs validated Successfully");
+    genTypeFile();
     process.exit(0);
   })
   .catch((err) => {
