@@ -132,6 +132,8 @@ const FeesTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
+  const navigate = useNavigate();
+
   const { isLoading, data } = useQuery({
     queryFn: API.FEE.GET,
     queryKey: ["FEE"],
@@ -154,6 +156,10 @@ const FeesTable = () => {
   });
 
   const isFiltered = table.getState().columnFilters.length > 0;
+
+  const onRowDoubleClick = (feeId: string) => {
+    navigate(`fee/${feeId}`);
+  };
 
   return (
     <>
@@ -200,6 +206,7 @@ const FeesTable = () => {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   ref={parent}
+                  onDoubleClick={() => onRowDoubleClick(row.original._id)}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
