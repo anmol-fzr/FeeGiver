@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 type PageHeaderProps = {
   title: string;
   desc: string;
@@ -5,12 +7,17 @@ type PageHeaderProps = {
 
 const PageHeader = ({ title, desc }: PageHeaderProps) => {
   return (
-    <div className="space-y-0.5">
-      <h2 className="animate-in slide-in-from-top fade-in text-3xl font-bold tracking-tight">
+    <motion.div className="space-y-0.5" layoutId="page_header">
+      <motion.h2
+        className="animate-in slide-in-from-top fade-in text-3xl font-bold tracking-tight"
+        layoutId="page_header_title"
+      >
         {title}
-      </h2>
-      <p className="text-muted-foreground">{desc}</p>
-    </div>
+      </motion.h2>
+      <motion.p className="text-muted-foreground" layoutId="page_header_desc">
+        {desc}
+      </motion.p>
+    </motion.div>
   );
 };
 
