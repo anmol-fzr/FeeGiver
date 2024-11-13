@@ -22,17 +22,18 @@ const addFeeSchema = z
     amount: feeAmntSchema("Amount").positive("Amount must be greater than 0"),
     sem: z.string({ message: "Semester is Required" }),
     feeType: z.string({ message: "Fee Type is Required" }),
-    haveHostelFee: boolSchema("Hostel Fee"),
     hostelFeeAmount: feeAmntSchema("Hostel Fee Amount"),
+    otherFeeType: z.string().optional(),
     securityAmount: feeAmntSchema("Security Fee Amount"),
     fineAmount: feeAmntSchema("Fine Amount"),
+    pdf: z.any(),
   })
-  .superRefine(({ haveHostelFee, hostelFeeAmount }, refinementContext) => {
-    if (haveHostelFee === "true" && hostelFeeAmount === undefined) {
+  .superRefine(({ otherFeeType, feeType }, refinementContext) => {
+    if (feeType === "Any Other" && !otherFeeType) {
       refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Hostel Fee Amount is required",
-        path: ["hostelFee"],
+        message: "Specify Fee Type Here",
+        path: ["otherFeeType"],
       });
     }
   });

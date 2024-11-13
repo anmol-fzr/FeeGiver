@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "@/store";
+import { envs } from "@/utils/envs";
 
 const validateStatus = (status: number) => {
   if (status === 401) {
@@ -8,10 +9,8 @@ const validateStatus = (status: number) => {
   return status >= 200 && status < 300;
 };
 
-const baseURL = import.meta.env.VITE_API_URL;
-
 const axiosInst = axios.create({
-  baseURL,
+  baseURL: envs.SERVER_URL,
   timeout: 50_000,
   validateStatus,
 });

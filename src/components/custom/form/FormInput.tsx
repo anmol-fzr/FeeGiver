@@ -16,6 +16,7 @@ const FormInput = ({ label, name, desc, info, ...props }: FormInputProps) => {
 
   const { register, formState } = useFormContext();
   const error = formState.errors[name]?.message?.toString();
+  //console.log(formState.errors);
 
   return (
     <div ref={animate} className="flex flex-col gap-2 w-full">

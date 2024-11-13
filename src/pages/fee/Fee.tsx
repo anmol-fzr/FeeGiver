@@ -18,6 +18,8 @@ import { formatCurrency, formatDateTime, formatOrdinals } from "@/utils/funcs";
 import { Fee as IFee } from "@/type/res";
 import { FeeStatusBadge } from "@/components";
 import { ChevronLeft } from "lucide-react";
+import { pdfjs } from "react-pdf";
+import Sample from "./Temp";
 
 type K = keyof IFee;
 type D = {
@@ -70,44 +72,48 @@ const FeePage = () => {
 
   return (
     <div className="flex flex-col w-full items-start">
-      <Link to={-1}>
+      <Link to="/">
         <ChevronLeft />
         Go Back
       </Link>
       <div className="w-full flex flex-col gap-12">
         <PageHeader title="Fee Data" desc="" />
-        <Card className="w-full max-w-screen-md">
-          <CardHeader>
-            <CardTitle className="flex items-start justify-between">
-              Fee Details
-              {!isLoading && data?.data && (
-                <FeeStatusBadge status={data?.data.status} />
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableBody>
-                {!isLoading &&
-                  data?.data &&
-                  Object.entries(data.data).map(([key, value]) => {
-                    const f = fmts[key];
-                    const shouldRender = f !== undefined;
-                    return (
-                      shouldRender && (
-                        <TableRow key={key}>
-                          <TableCell className="font-medium">
-                            {f.label}
-                          </TableCell>
-                          <TableCell>{f.fmt(value)}</TableCell>
-                        </TableRow>
-                      )
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+
+        <div className="w-full flex gap-4 justify-between">
+          <Card className="w-full max-w-screen-md h-fit">
+            <CardHeader>
+              <CardTitle className="flex items-start justify-between">
+                Fee Details
+                {!isLoading && data?.data && (
+                  <FeeStatusBadge status={data?.data.status} />
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableBody>
+                  {!isLoading &&
+                    data?.data &&
+                    Object.entries(data.data).map(([key, value]) => {
+                      const f = fmts[key];
+                      const shouldRender = f !== undefined;
+                      return (
+                        shouldRender && (
+                          <TableRow key={key}>
+                            <TableCell className="font-medium">
+                              {f.label}
+                            </TableCell>
+                            <TableCell>{f.fmt(value)}</TableCell>
+                          </TableRow>
+                        )
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+          <Sample />
+        </div>
       </div>
     </div>
   );
