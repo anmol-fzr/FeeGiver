@@ -1,10 +1,11 @@
 import { AccountForm } from "@/components";
+import { useProfile } from "@/hooks/useProfile";
 import { stuOnboardSchema } from "@/schema";
 import { API } from "@/services";
 import { useAuthStore } from "@/store";
 import { IReqLogin } from "@/type/req";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -24,19 +25,14 @@ const UpdateAccountForm = () => {
     disabled: true,
   });
 
-  const { data, isLoading } = useQuery({
-    queryFn: API.PROFILE.GET,
-    queryKey: ["PROFILE"],
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
+  const { data, isLoading } = useProfile();
 
   useEffect(() => {
     if (!isLoading && data?.data) {
       const payload = data?.data;
       form.reset(payload);
     }
-  }, [isLoading]);
+  }, [isLoading, data, data?.data, form]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: API.AUTH.LOGIN,

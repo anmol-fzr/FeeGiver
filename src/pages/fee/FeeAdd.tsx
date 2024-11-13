@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { useProfileStore } from "@/store";
 import { FileUploader } from "@/components/custom/file-uploader";
 import { z } from "zod";
+import { useProfile } from "@/hooks/useProfile";
 
 const id = "add_fee_form";
 
@@ -42,10 +43,7 @@ const FeeAddPage = () => {
     }
   }, [isFormOpen, navigate]);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["PROFILE"],
-    queryFn: API.PROFILE.GET,
-  });
+  const { data, isLoading } = useProfile();
 
   const form = useForm({
     resolver: zodResolver(addFeeSchema),

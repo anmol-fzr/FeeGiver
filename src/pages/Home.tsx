@@ -1,31 +1,13 @@
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { API } from "@/services";
 import { PageHeader, OpenFormAlert, FeesTable } from "@/components";
-import { ref, onValue } from "firebase/database";
-import { fbRealTimeDB } from "@/config/fbConfig";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useProfileStore } from "@/store";
-
-const { updateIsFormOpen } = useProfileStore.getState();
+import { useIsFormOpen } from "@/hooks";
+import { useProfile } from "@/hooks/useProfile";
 
 const HomePage = () => {
-  const isFormOpen = useProfileStore((state) => state.isFormOpen);
+  const isFormOpen = useIsFormOpen();
   const [animateRef] = useAutoAnimate();
 
-  useEffect(() => {
-    const settingsRef = ref(fbRealTimeDB);
-    onValue(settingsRef, (snapshot) => {
-      const data = snapshot.val();
-      updateIsFormOpen(data.settings.isFormOpen);
-    });
-  }, []);
-
-  const { data } = useQuery({
-    queryFn: API.PROFILE.GET,
-    queryKey: ["PROFILE"],
-    refetchOnWindowFocus: false,
-  });
+  const { data } = useProfile();
 
   const name = data?.data.name;
 

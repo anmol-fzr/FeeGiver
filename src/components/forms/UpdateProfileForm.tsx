@@ -2,20 +2,17 @@ import { ProfileForm } from "@/components";
 import { stuOnboardSchema } from "@/schema";
 import { API } from "@/services";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { IReqUpdateProfile } from "@/type/req";
+import { useProfile } from "@/hooks/useProfile";
 
 const id = "update_profile_form";
 
 const UpdateProfileForm = () => {
-  const { data, isLoading } = useQuery({
-    queryFn: API.PROFILE.GET,
-    queryKey: ["PROFILE"],
-    refetchOnWindowFocus: false,
-  });
+  const { data, isLoading } = useProfile();
 
   const form = useForm({
     resolver: zodResolver(stuOnboardSchema),
@@ -26,7 +23,7 @@ const UpdateProfileForm = () => {
       const payload = data?.data;
       form.reset(payload);
     }
-  }, [isLoading]);
+  }, [isLoading, form, data]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: API.PROFILE.UPDATE,

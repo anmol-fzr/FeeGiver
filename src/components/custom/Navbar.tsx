@@ -16,18 +16,13 @@ import {
   Link,
 } from "@/components";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { API } from "@/services";
+import { useProfile } from "@/hooks/useProfile";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const toSettings = () => navigate("/settings/profile");
 
-  const { data } = useQuery({
-    queryFn: API.PROFILE.GET,
-    queryKey: ["PROFILE"],
-    refetchOnWindowFocus: false,
-  });
+  const { data } = useProfile();
 
   const avatar = data?.data?.avatar;
   const fullName = data?.data?.name;

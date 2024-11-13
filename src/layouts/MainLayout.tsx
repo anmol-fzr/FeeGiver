@@ -12,7 +12,7 @@ const MainLayout = () => {
     if (!isLogin) {
       navigate("/auth/login");
     }
-  }, [isLogin]);
+  }, [isLogin, navigate]);
 
   return (
     <>

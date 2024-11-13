@@ -113,7 +113,7 @@ const FeePage = () => {
               </Table>
             </CardContent>
           </Card>
-          <FeePdf file={pdfUri} />
+          {!isLoading && pdfUri && <FeePdf file={pdfUri} />}
         </div>
       </div>
     </div>
