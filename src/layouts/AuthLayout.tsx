@@ -12,7 +12,7 @@ const AuthLayout = () => {
     if (isLogin) {
       navigate("/");
     }
-  }, [isLogin]);
+  }, [isLogin, navigate]);
 
   return (
     <>

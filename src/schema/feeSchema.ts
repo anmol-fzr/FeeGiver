@@ -9,11 +9,6 @@ const feeAmntSchema = (label: string) =>
     .safe()
     .max(999999);
 
-const boolSchema = (label: string) =>
-  z.enum(["true", "false"], {
-    errorMap: () => ({ message: `${label} is Required` }),
-  });
-
 const addFeeSchema = z
   .object({
     sbCollRef: z

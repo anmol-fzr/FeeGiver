@@ -112,17 +112,3 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-.Example__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.Example__container__document {
-  width: 100%;
-  max-width: calc(100% - 2em);
-  margin: 1em 0;
-}
