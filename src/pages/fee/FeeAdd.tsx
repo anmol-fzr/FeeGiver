@@ -7,11 +7,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { IndianRupee, FileDigit } from "lucide-react";
 import { FormInput, FormSelect, FormTextarea, PageHeader } from "@/components";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addFeeSchema } from "@/schema";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { API } from "@/services";
 import { toast } from "sonner";
 import {
@@ -142,6 +143,7 @@ const FeeAddPage = () => {
               label="Name"
               placeholder="Rahul"
               info="Name is picked from your Profile Settings"
+              desc="Name is picked from your Profile Settings"
             />
             <FormInput
               name="rollNo"
@@ -149,19 +151,22 @@ const FeeAddPage = () => {
               label="Roll Number"
               placeholder="*** ***"
               info="Roll Number is picked from your Profile Settings"
+              desc="Roll Number is picked from your Profile Settings"
             />
             <FormSelect options={semOptions} name="sem" label="Semester" />
             <FormInput
+              icon={FileDigit}
               name="sbCollRef"
               label="SB Collect Reference Number"
               placeholder="ABC1231234"
             />
             <FormInput
+              icon={IndianRupee}
               name="amount"
               label="Amount"
               type="number"
               desc={amnt > 0 ? convertToWords(amnt) + " Rupees Only" : ""}
-              placeholder="₹ 39,999"
+              placeholder="39,999"
             />
             <FormSelect
               options={feeTypeOptions}
@@ -177,6 +182,7 @@ const FeeAddPage = () => {
             )}
 
             <FormInput
+              icon={IndianRupee}
               name="hostelFeeAmount"
               label="Hostel Fee Amount"
               type="number"
@@ -185,12 +191,13 @@ const FeeAddPage = () => {
                   ? convertToWords(hostelFeeAmount) + " Rupees Only"
                   : ""
               }
-              placeholder="₹ 3,000"
+              placeholder="3,000"
             />
             <FormInput
+              icon={IndianRupee}
               name="securityAmount"
               label="Security Fee Amount"
-              placeholder="₹ 5,000"
+              placeholder="5,000"
               type="number"
               desc={
                 securityAmount > 0
@@ -199,9 +206,10 @@ const FeeAddPage = () => {
               }
             />
             <FormInput
+              icon={IndianRupee}
               name="fineAmount"
               label="Fine Amount"
-              placeholder="₹ 500"
+              placeholder="500"
               type="number"
               desc={fine > 0 ? convertToWords(fine) + " Rupees Only" : ""}
             />

@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, ButtonProps } from "@/components";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
 import { getRand } from "@/utils";
+import { AtSign, SquareAsterisk } from "lucide-react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type BaseFormProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -11,7 +12,7 @@ type BaseFormProps<T extends FieldValues> = {
   isPending: boolean;
   buttonProps?: ButtonProps;
   buttonText?: string;
-  showSignUp?: boolean;
+  isOtpSent?: boolean;
 };
 
 /**
@@ -28,20 +29,29 @@ const AccountForm = <T extends FieldValues>({
   onSubmit,
   isPending,
   buttonText,
-  showSignUp = false,
   buttonProps,
   isOtpSent = false,
 }: BaseFormProps<T>) => {
+  const [animateRef] = useAutoAnimate();
   const submit = form.handleSubmit(onSubmit);
   return (
     <Form {...form}>
-      <form onSubmit={submit} className="space-y-4">
+      <form ref={animateRef} onSubmit={submit} className="space-y-4">
         <FormInput
           name="email"
+          icon={AtSign}
           label="Email address"
           placeholder={emailPlaceholder}
         />
-        <FormInput name="otp" label="OTP" type="number" placeholder="123456" />
+        {isOtpSent && (
+          <FormInput
+            icon={SquareAsterisk}
+            name="otp"
+            label="OTP"
+            type="number"
+            placeholder="123456"
+          />
+        )}
         <div className="space-y-2">
           <Button
             type="submit"
@@ -51,20 +61,6 @@ const AccountForm = <T extends FieldValues>({
           >
             {buttonText}
           </Button>
-          {showSignUp && (
-            <p className="text-center">
-              Don't have an account?
-              <Link
-                to="/auth/signup"
-                className={buttonVariants({
-                  variant: "link",
-                  className: "!pl-1 !p-0",
-                })}
-              >
-                Sign Up
-              </Link>
-            </p>
-          )}
         </div>
       </form>
     </Form>

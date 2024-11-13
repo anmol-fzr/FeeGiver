@@ -9,9 +9,17 @@ type FormInputProps = InputProps & {
   name: string;
   desc?: string;
   info?: string;
+  icon?: any;
 };
 
-const FormInput = ({ label, name, desc, info, ...props }: FormInputProps) => {
+const FormInput = ({
+  label,
+  icon: Icon,
+  name,
+  desc,
+  info,
+  ...props
+}: FormInputProps) => {
   const [animate] = useAutoAnimate();
 
   const { register, formState } = useFormContext();
@@ -23,11 +31,19 @@ const FormInput = ({ label, name, desc, info, ...props }: FormInputProps) => {
       <FormLabel htmlFor={name} info={info}>
         {label}
       </FormLabel>
-      <Input
-        {...register(name, { valueAsNumber: props.type === "number" })}
-        id={name}
-        {...props}
-      />
+      <div className="relative">
+        <Input
+          {...register(name, { valueAsNumber: props.type === "number" })}
+          id={name}
+          className={Icon ? "peer ps-9" : ""}
+          {...props}
+        />
+        {Icon && (
+          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+            <Icon size={16} strokeWidth={2} aria-hidden="true" />
+          </div>
+        )}
+      </div>
       {desc && <FormDescription>{desc}</FormDescription>}
       {error && <FormError>{error}</FormError>}
       <FormMessage />

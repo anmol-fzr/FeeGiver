@@ -14,7 +14,7 @@ type TipperProps = {
 const Tipper = ({ children, tooltip }: TipperProps) => {
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip delayDuration={50}>
         <TooltipTrigger type="button">{children}</TooltipTrigger>
         <TooltipContent>
           <p>{tooltip}</p>

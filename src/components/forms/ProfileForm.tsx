@@ -3,6 +3,7 @@ import { Form } from "@/components/ui/form";
 import { FormInput, FormSelect } from "@/components";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
 import { yearOptions } from "@/utils";
+import { Phone, Notebook, Hash } from "lucide-react";
 
 type BaseFormProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -41,18 +42,21 @@ const ProfileFormFields = () => {
     <>
       <FormInput name="name" label="Name" placeholder="Rahul" />
       <FormInput
+        icon={Phone}
         name="mobile"
         label="Mobile Number"
         type="tel"
         placeholder="9879879876"
       />
       <FormInput
+        icon={Notebook}
         name="admissionNo"
         label="Admission Number"
         type="number"
         placeholder={`${year}****`}
       />
       <FormInput
+        icon={Hash}
         name="rollNo"
         label="Roll Number"
         type="number"
