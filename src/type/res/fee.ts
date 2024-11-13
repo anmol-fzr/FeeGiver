@@ -16,7 +16,7 @@ type Fee = {
 };
 
 type IResGetFee = IRes<Fee[]>;
-type IResGetSingleFee = IRes<Fee>;
+type IResGetSingleFee = IRes<Fee & { pdfUri: string }>;
 
 export type { IResGetFee, IResGetSingleFee };
 export type { Fee };

@@ -18,8 +18,7 @@ import { formatCurrency, formatDateTime, formatOrdinals } from "@/utils/funcs";
 import { Fee as IFee } from "@/type/res";
 import { FeeStatusBadge } from "@/components";
 import { ChevronLeft } from "lucide-react";
-import { pdfjs } from "react-pdf";
-import Sample from "./Temp";
+import { FeePdf } from "@/components/FeePdf";
 
 type K = keyof IFee;
 type D = {
@@ -70,6 +69,8 @@ const FeePage = () => {
     queryFn: ({ queryKey }) => API.FEE.ONE(queryKey[1]),
   });
 
+  const pdfUri = data?.data.pdfUri;
+
   return (
     <div className="flex flex-col w-full items-start">
       <Link to="/">
@@ -112,7 +113,7 @@ const FeePage = () => {
               </Table>
             </CardContent>
           </Card>
-          <Sample />
+          <FeePdf file={pdfUri} />
         </div>
       </div>
     </div>

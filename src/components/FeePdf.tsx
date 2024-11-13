@@ -19,12 +19,11 @@ const resizeObserverOptions = {};
 
 const maxWidth = 800;
 
-type PDFFile = string | File | null;
+type FeePdfProps = {
+  file: string;
+};
 
-export default function Sample() {
-  const [file] = useState<PDFFile>(
-    "http://192.168.31.67:9000/students/672637b0b9e983433f85b3af/SB Collect.pdf",
-  );
+export function FeePdf({ file }: FeePdfProps) {
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
