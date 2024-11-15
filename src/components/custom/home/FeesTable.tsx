@@ -16,6 +16,7 @@ import {
   TableFacetedFilter,
   Button,
   Link,
+  LoadingColumnRows,
 } from "@/components/";
 import {
   ColumnDef,
@@ -202,7 +203,9 @@ const FeesTable = () => {
             ))}
           </TableHeader>
           <TableBody ref={parent}>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <LoadingColumnRows colLen={columns.length} />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   ref={parent}

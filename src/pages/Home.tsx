@@ -7,17 +7,23 @@ const HomePage = () => {
   const isFormOpen = useIsFormOpen();
   const [animateRef] = useAutoAnimate();
 
-  const { data } = useProfile();
+  const { isLoading, data } = useProfile();
 
   const name = data?.data.name;
 
   return (
-    <div className="w-full space-y-4" ref={animateRef}>
+    <div className="w-full space-y-4">
+      {/*
       {isFormOpen && name && <OpenFormAlert name={name} />}
-      <PageHeader
-        title={`Welcome ${name}`}
-        desc="These are your Previously filled fee data"
-      />
+      */}
+      {isLoading ? (
+        <PageHeader.Loading />
+      ) : (
+        <PageHeader
+          title={`Welcome ${name}`}
+          desc="These are your Previously filled fee data"
+        />
+      )}
       <FeesTable />
     </div>
   );
