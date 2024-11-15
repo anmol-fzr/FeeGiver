@@ -8,7 +8,7 @@ type PageHeaderProps = {
 
 function PageHeader(props: PageHeaderProps) {
   const { title, desc } = props;
-  console.log(Object.isExtensible(props));
+
   return (
     <motion.div className="space-y-0.5" layoutId="page_header">
       <motion.h2

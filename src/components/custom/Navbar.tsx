@@ -17,11 +17,9 @@ import {
 } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "@/hooks/useProfile";
-import { useQueryClient } from "@tanstack/react-query";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const toSettings = () => navigate("/settings/profile");
 
   const { data } = useProfile();
@@ -30,19 +28,11 @@ const Navbar = () => {
   const fullName = data?.data?.name;
   const name = fullName?.slice(0, 2).toUpperCase();
 
-  const onR = () => {
-    queryClient.invalidateQueries();
-  };
-
   return (
     <nav className="h-16 border-b flex items-center p-4 justify-between gap-4 max-w-theme !z-10">
       <Link to="/">Home</Link>
 
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" onClick={onR}>
-          R
-        </Button>
-
         <ThemeToggle />
 
         <DropdownMenu>
