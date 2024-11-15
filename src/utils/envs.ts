@@ -1,9 +1,10 @@
 const env = import.meta.env;
 
-const envs = {
+const envs = Object.freeze({
   isDev: env.DEV,
   SERVER_URL: env.VITE_API_URL,
-  FIREBASE: {
+
+  FIREBASE: Object.freeze({
     API_KEY: env.VITE_FIREBASE_API_KEY,
     AUTH_DOMAIN: env.VITE_FIREBASE_AUTH_DOMAIN,
     DB_URL: env.VITE_FIREBASE_DB_URL,
@@ -12,7 +13,7 @@ const envs = {
     MESSAGING_SENDER_ID: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     APP_ID: env.VITE_FIREBASE_APP_ID,
     MEASUREMENT_ID: env.VITE_FIREBASE_MEASUREMENT_ID,
-  },
-};
+  }),
+});
 
 export { envs };
