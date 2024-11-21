@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "bun run check && vite --host --port 5174",
-    "build": "vite build",
     "check": "bun run ./src/utils/check.ts",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint-fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "preview": "vite preview --host --port 5174"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
