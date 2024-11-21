@@ -6,8 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Button,
-  useTheme,
 } from "@/components";
+import { useTheme } from "@/hooks";
 
 const themes = ["light", "dark", "system"] as const;
 

@@ -42,16 +42,19 @@ function OnboardingForm() {
     },
   });
 
-  const onSubmit = useCallback((values: ILoginForm) => {
-    const payload = {} as ILoginForm;
+  const onSubmit = useCallback(
+    (values: ILoginForm) => {
+      const payload = {} as ILoginForm;
 
-    Object.keys(values).forEach((k) => {
-      const key = k as keyof ILoginForm;
-      payload[key] = values[key].toString();
-    });
+      Object.keys(values).forEach((k) => {
+        const key = k as keyof ILoginForm;
+        payload[key] = values[key].toString();
+      });
 
-    mutate(payload);
-  }, []);
+      mutate(payload);
+    },
+    [mutate],
+  );
 
   return (
     <Card className="mx-auto w-full max-w-md">

@@ -12,10 +12,8 @@ const HomePage = () => {
   const name = data?.data.name;
 
   return (
-    <div className="w-full space-y-4">
-      {/*
+    <div ref={animateRef} className="w-full space-y-4">
       {isFormOpen && name && <OpenFormAlert name={name} />}
-      */}
       {isLoading ? (
         <PageHeader.Loading />
       ) : (

@@ -1,5 +1,5 @@
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Form, FormLabel } from "@/components/ui/form";
-import { FormInput, ProfileFormFields, Tipper } from "@/components";
+import { Form } from "@/components/ui/form";
+import { FormInput, ProfileFormFields } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/schema/authSchema";
@@ -44,7 +44,7 @@ const SignUpForm = () => {
     if (!isOnboarding) {
       navigate("/auth/login");
     }
-  }, [isOnboarding]);
+  }, [isOnboarding, navigate]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: API.AUTH.SIGNUP,

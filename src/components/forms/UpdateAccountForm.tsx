@@ -34,7 +34,7 @@ const UpdateAccountForm = () => {
     }
   }, [isLoading, data, data?.data, form]);
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: API.AUTH.LOGIN,
     onSuccess(res) {
       const { token } = res.data;

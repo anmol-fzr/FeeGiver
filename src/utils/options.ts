@@ -139,11 +139,12 @@ function convertToWords(num: number) {
   }
 
   // Handle integer part
-  let [integerPart, fractionalPart]: any = num.toString().split(".");
+  let integerPart: string | number = num.toString().split(".")[0];
+  const fractionalPart: string = num.toString().split(".")[1];
   integerPart = parseInt(integerPart, 10);
   let i = 0;
   while (integerPart > 0) {
-    let chunk = integerPart % 1000;
+    const chunk = integerPart % 1000;
     if (chunk > 0) {
       words = helper(chunk, i) + words;
     }
@@ -156,7 +157,7 @@ function convertToWords(num: number) {
   // Handle fractional part
   if (fractionalPart) {
     words += " Point";
-    for (let digit of fractionalPart) {
+    for (const digit of fractionalPart) {
       words += " " + belowTwenty[digit];
     }
   }

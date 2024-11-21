@@ -1,5 +1,5 @@
 import { IRes } from ".";
-import { StudentProfile, StudentProfileDetails } from "./auth";
+import { StudentProfileDetails } from "./auth";
 
 type IResGetProfile = IRes<{
   email: string;
