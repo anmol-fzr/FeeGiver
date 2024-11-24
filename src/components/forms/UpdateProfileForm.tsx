@@ -12,45 +12,45 @@ import { useProfile } from "@/hooks/useProfile";
 const id = "update_profile_form";
 
 const UpdateProfileForm = () => {
-  const { data, isLoading } = useProfile();
+	const { data, isLoading } = useProfile();
 
-  const form = useForm({
-    resolver: zodResolver(stuOnboardSchema),
-  });
+	const form = useForm({
+		resolver: zodResolver(stuOnboardSchema),
+	});
 
-  useEffect(() => {
-    if (!isLoading && data?.data) {
-      const payload = data?.data;
-      form.reset(payload);
-    }
-  }, [isLoading, form, data]);
+	useEffect(() => {
+		if (!isLoading && data?.data) {
+			const payload = data?.data;
+			form.reset(payload);
+		}
+	}, [isLoading, form, data]);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: API.PROFILE.UPDATE,
-    onSuccess(res) {
-      toast.success(res.message, { id });
-    },
-    onError(err) {
-      console.log(err);
-      toast.error(err.message, { id });
-    },
-  });
+	const { mutate, isPending } = useMutation({
+		mutationFn: API.PROFILE.UPDATE,
+		onSuccess(res) {
+			toast.success(res.message, { id });
+		},
+		onError(err) {
+			console.log(err);
+			toast.error(err.message, { id });
+		},
+	});
 
-  function onSubmit(data: IReqUpdateProfile) {
-    const payload = {} as IReqUpdateProfile;
-    Object.keys(form.formState.dirtyFields).forEach((k) => {
-      const key = k as keyof IReqUpdateProfile;
-      payload[key] = data[key];
-    });
-    mutate(payload);
-  }
+	function onSubmit(data: IReqUpdateProfile) {
+		const payload = {} as IReqUpdateProfile;
+		Object.keys(form.formState.dirtyFields).forEach((k) => {
+			const key = k as keyof IReqUpdateProfile;
+			payload[key] = data[key];
+		});
+		mutate(payload);
+	}
 
-  return (
-    <ProfileForm
-      {...{ form, onSubmit, isPending }}
-      buttonText="Update profile"
-    />
-  );
+	return (
+		<ProfileForm
+			{...{ form, onSubmit, isPending }}
+			buttonText="Update profile"
+		/>
+	);
 };
 
 export { UpdateProfileForm };

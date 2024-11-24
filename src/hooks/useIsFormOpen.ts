@@ -6,17 +6,17 @@ import { useProfileStore } from "@/store";
 const { updateIsFormOpen } = useProfileStore.getState();
 
 const useIsFormOpen = () => {
-  const isFormOpen = useProfileStore((state) => state.isFormOpen);
+	const isFormOpen = useProfileStore((state) => state.isFormOpen);
 
-  useEffect(() => {
-    const settingsRef = ref(fbRealTimeDB);
-    onValue(settingsRef, (snapshot) => {
-      const data = snapshot.val();
-      updateIsFormOpen(data.settings.isFormOpen);
-    });
-  }, []);
+	useEffect(() => {
+		const settingsRef = ref(fbRealTimeDB);
+		onValue(settingsRef, (snapshot) => {
+			const data = snapshot.val();
+			updateIsFormOpen(data.settings.isFormOpen);
+		});
+	}, []);
 
-  return isFormOpen;
+	return isFormOpen;
 };
 
 export { useIsFormOpen };

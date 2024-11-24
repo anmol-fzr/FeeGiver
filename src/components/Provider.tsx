@@ -6,31 +6,31 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SkeletonTheme } from "react-loading-skeleton";
 
 import "@/index.css";
-import 'react-loading-skeleton/dist/skeleton.css'
+import "react-loading-skeleton/dist/skeleton.css";
 import { envs } from "@/utils/envs";
 
 type Props = {
-  children: ReactNode;
+	children: ReactNode;
 };
 
 const queryClient = new QueryClient();
 
 const Provider = ({ children }: Props) => {
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="dark" storageKey="fee-giver-ui-theme">
-          <Toaster />
-          <BrowserRouter>
-            <SkeletonTheme baseColor="#1e293b" highlightColor="#111827">
-              {children}
-            </SkeletonTheme>
-          </BrowserRouter>
-          {envs.isDev && <ReactQueryDevtools />}
-        </ThemeProvider>
-      </QueryClientProvider>
-    </>
-  );
+	return (
+		<>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider defaultTheme="dark" storageKey="fee-giver-ui-theme">
+					<Toaster />
+					<BrowserRouter>
+						<SkeletonTheme baseColor="#1e293b" highlightColor="#111827">
+							{children}
+						</SkeletonTheme>
+					</BrowserRouter>
+					{envs.isDev && <ReactQueryDevtools />}
+				</ThemeProvider>
+			</QueryClientProvider>
+		</>
+	);
 };
 
 export { Provider };

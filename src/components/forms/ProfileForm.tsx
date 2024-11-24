@@ -6,10 +6,10 @@ import { yearOptions } from "@/utils";
 import { Phone, Notebook, Hash } from "lucide-react";
 
 type BaseFormProps<T extends FieldValues> = {
-  form: UseFormReturn<T>;
-  onSubmit: SubmitHandler<T>;
-  isPending: boolean;
-  buttonText?: string;
+	form: UseFormReturn<T>;
+	onSubmit: SubmitHandler<T>;
+	isPending: boolean;
+	buttonText?: string;
 };
 
 const year = new Date().getFullYear().toString();
@@ -20,56 +20,56 @@ const batch = year.slice(2);
  **/
 
 const ProfileForm = <T extends FieldValues>({
-  form,
-  onSubmit,
-  isPending,
-  buttonText = "Submit",
+	form,
+	onSubmit,
+	isPending,
+	buttonText = "Submit",
 }: BaseFormProps<T>) => {
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <ProfileFormFields />
-        <Button type="submit" disabled={isPending}>
-          {buttonText}
-        </Button>
-      </form>
-    </Form>
-  );
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<ProfileFormFields />
+				<Button type="submit" disabled={isPending}>
+					{buttonText}
+				</Button>
+			</form>
+		</Form>
+	);
 };
 
 const ProfileFormFields = () => {
-  return (
-    <>
-      <FormInput name="name" label="Name" placeholder="Rahul" />
-      <FormInput
-        icon={Phone}
-        name="mobile"
-        label="Mobile Number"
-        type="tel"
-        placeholder="9879879876"
-      />
-      <FormInput
-        icon={Notebook}
-        name="admissionNo"
-        label="Admission Number"
-        type="number"
-        placeholder={`${year}****`}
-      />
-      <FormInput
-        icon={Hash}
-        name="rollNo"
-        label="Roll Number"
-        type="number"
-        placeholder={`${batch}****`}
-      />
-      <FormSelect
-        options={yearOptions}
-        name="batch"
-        label="Batch"
-        placeholder="Select Batch"
-      />
-    </>
-  );
+	return (
+		<>
+			<FormInput name="name" label="Name" placeholder="Rahul" />
+			<FormInput
+				icon={Phone}
+				name="mobile"
+				label="Mobile Number"
+				type="tel"
+				placeholder="9879879876"
+			/>
+			<FormInput
+				icon={Notebook}
+				name="admissionNo"
+				label="Admission Number"
+				type="number"
+				placeholder={`${year}****`}
+			/>
+			<FormInput
+				icon={Hash}
+				name="rollNo"
+				label="Roll Number"
+				type="number"
+				placeholder={`${batch}****`}
+			/>
+			<FormSelect
+				options={yearOptions}
+				name="batch"
+				label="Batch"
+				placeholder="Select Batch"
+			/>
+		</>
+	);
 };
 
 export { ProfileForm, ProfileFormFields };

@@ -4,24 +4,24 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
-  const isLogin =
-    useAuthStore((state) => state.creds.authState) === "logged-in";
-  const navigate = useNavigate();
+	const isLogin =
+		useAuthStore((state) => state.creds.authState) === "logged-in";
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLogin) {
-      navigate("/auth/login");
-    }
-  }, [isLogin, navigate]);
+	useEffect(() => {
+		if (!isLogin) {
+			navigate("/auth/login");
+		}
+	}, [isLogin, navigate]);
 
-  return (
-    <>
-      <Navbar />
-      <Page>
-        <Outlet />
-      </Page>
-    </>
-  );
+	return (
+		<>
+			<Navbar />
+			<Page>
+				<Outlet />
+			</Page>
+		</>
+	);
 };
 
 export { MainLayout };

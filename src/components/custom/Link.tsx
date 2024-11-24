@@ -8,17 +8,17 @@ import { cn } from "@/lib/utils";
 type LinkProps = RawLinkProps & VariantProps<typeof buttonVariants>;
 
 const Link: FC<LinkProps> = ({
-  className,
-  variant = "ghost",
-  size,
-  ...props
+	className,
+	variant = "ghost",
+	size,
+	...props
 }) => {
-  return (
-    <RawLink
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
+	return (
+		<RawLink
+			className={cn(buttonVariants({ variant, size, className }))}
+			{...props}
+		/>
+	);
 };
 Link.displayName = "Link";
 

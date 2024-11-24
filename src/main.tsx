@@ -4,9 +4,9 @@ import { Router } from "./router.tsx";
 import { Provider } from "./components/Provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Provider>
-      <Router />
-    </Provider>
-  </StrictMode>,
+	<StrictMode>
+		<Provider>
+			<Router />
+		</Provider>
+	</StrictMode>,
 );

@@ -18,54 +18,54 @@ type ILoginForm = IReqLogin;
 const id = "login_form";
 
 const UpdateAccountForm = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const form = useForm<ILoginForm>({
-    resolver: zodResolver(stuOnboardSchema),
-    disabled: true,
-  });
+	const form = useForm<ILoginForm>({
+		resolver: zodResolver(stuOnboardSchema),
+		disabled: true,
+	});
 
-  const { data, isLoading } = useProfile();
+	const { data, isLoading } = useProfile();
 
-  useEffect(() => {
-    if (!isLoading && data?.data) {
-      const payload = data?.data;
-      form.reset(payload);
-    }
-  }, [isLoading, data, data?.data, form]);
+	useEffect(() => {
+		if (!isLoading && data?.data) {
+			const payload = data?.data;
+			form.reset(payload);
+		}
+	}, [isLoading, data, data?.data, form]);
 
-  const { mutate } = useMutation({
-    mutationFn: API.AUTH.LOGIN,
-    onSuccess(res) {
-      const { token } = res.data;
+	const { mutate } = useMutation({
+		mutationFn: API.AUTH.LOGIN,
+		onSuccess(res) {
+			const { token } = res.data;
 
-      updateCreds({
-        isLogin: true,
-        token,
-      });
+			updateCreds({
+				isLogin: true,
+				token,
+			});
 
-      toast.success(res.message, { id });
-      navigate("/");
-    },
-    onError(err) {
-      console.log(err);
-      toast.error(err.message, { id });
-    },
-  });
+			toast.success(res.message, { id });
+			navigate("/");
+		},
+		onError(err) {
+			console.log(err);
+			toast.error(err.message, { id });
+		},
+	});
 
-  function onSubmit(values: ILoginForm) {
-    mutate(values);
-  }
+	function onSubmit(values: ILoginForm) {
+		mutate(values);
+	}
 
-  return (
-    <AccountForm
-      buttonProps={{
-        className: "w-fit",
-      }}
-      {...{ form, onSubmit, isPending: true }}
-      buttonText="Update Account"
-    />
-  );
+	return (
+		<AccountForm
+			buttonProps={{
+				className: "w-fit",
+			}}
+			{...{ form, onSubmit, isPending: true }}
+			buttonText="Update Account"
+		/>
+	);
 };
 
 export { UpdateAccountForm };
