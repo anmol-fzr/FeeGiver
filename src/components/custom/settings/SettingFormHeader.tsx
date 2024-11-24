@@ -1,4 +1,4 @@
-type SettingFormHeaderProps = {
+export type SettingFormHeaderProps = {
 	title: string;
 	desc: string;
 };
