@@ -1,13 +1,9 @@
-import { Separator, SettingFormHeader, UpdateAccountForm } from "@/components";
+import { SettingPage, UpdateProfileForm } from "@/components";
 
-const AccountPage = () => {
+export function AccountPage() {
 	return (
-		<div className="space-y-6 w-full ">
-			<SettingFormHeader title="Account" desc="Change your Email & Password." />
-			<Separator />
-			<UpdateAccountForm />
-		</div>
+		<SettingPage title="Account" desc="Change your Email & Password.">
+			<UpdateProfileForm />
+		</SettingPage>
 	);
-};
-
-export { AccountPage };
+}

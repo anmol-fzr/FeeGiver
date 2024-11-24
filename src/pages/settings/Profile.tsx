@@ -1,16 +1,12 @@
-import { UpdateProfileForm, Separator, SettingFormHeader } from "@/components";
+import { SettingPage, UpdateProfileForm } from "@/components";
 
-const ProfilePage = () => {
+export function ProfilePage() {
 	return (
-		<div className="space-y-6 w-full ">
-			<SettingFormHeader
-				title="Profile"
-				desc="Update your profile data. Set your roll number, batch and other details."
-			/>
-			<Separator />
+		<SettingPage
+			title="Profile"
+			desc="Update your profile data. Set your roll number, batch and other details."
+		>
 			<UpdateProfileForm />
-		</div>
+		</SettingPage>
 	);
-};
-
-export { ProfilePage };
+}

@@ -4,6 +4,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const SettingsLayout = () => {
 	const [parent] = useAutoAnimate();
+
 	return (
 		<div className="space-y-6 w-full">
 			<PageHeader title="Settings" desc="Manage your account settings." />
