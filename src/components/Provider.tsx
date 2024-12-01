@@ -4,6 +4,7 @@ import { Toaster, ThemeProvider } from "@/components";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SkeletonTheme } from "react-loading-skeleton";
+import { CmdK } from "./custom/CmdK";
 
 import "@/index.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -24,6 +25,7 @@ const Provider = ({ children }: Props) => {
 					<BrowserRouter>
 						<SkeletonTheme baseColor="#1e293b" highlightColor="#111827">
 							{children}
+							<CmdK />
 						</SkeletonTheme>
 					</BrowserRouter>
 					{envs.isDev && <ReactQueryDevtools />}

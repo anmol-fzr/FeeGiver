@@ -24,45 +24,6 @@ for (let index = 0; index < 4; index++) {
 	});
 }
 
-const feeTypeOptions: Option[] = [
-	{
-		label: "Full Fee",
-		value: "Full Fee",
-	},
-	{
-		label: "PMSS 40",
-		value: "PMSS 40",
-	},
-	{
-		label: "PMSS 60",
-		value: "PMSS 60",
-	},
-	{
-		label: "PMSS 100",
-		value: "PMSS 100",
-	},
-	{
-		label: "Scholarship Bihar",
-		value: "Scholarship Bihar",
-	},
-	{
-		label: "Scholarship J & K",
-		value: "Scholarship J & K",
-	},
-	{
-		label: "Pre-registration",
-		value: "Pre-registration",
-	},
-	{
-		label: "Re-appear",
-		value: "Re-appear",
-	},
-	{
-		label: "Any Other",
-		value: "Any Other",
-	},
-];
-
 const boolOptions: Option[] = [
 	{
 		label: "Yes",
@@ -165,4 +126,14 @@ function convertToWords(num: number) {
 	return words.trim();
 }
 
-export { semOptions, yearOptions, feeTypeOptions, boolOptions, convertToWords };
+const currBatch = year.slice(2);
+const currYear = year;
+
+export {
+	semOptions,
+	yearOptions,
+	boolOptions,
+	convertToWords,
+	currYear,
+	currBatch,
+};

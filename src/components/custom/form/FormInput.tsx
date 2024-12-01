@@ -24,13 +24,10 @@ const FormInput = ({
 
 	const { register, formState } = useFormContext();
 	const error = formState.errors[name]?.message?.toString();
-	//console.log(formState.errors);
 
 	return (
 		<div ref={animate} className="flex flex-col gap-2 w-full">
-			<FormLabel htmlFor={name} info={info}>
-				{label}
-			</FormLabel>
+			<FormLabel htmlFor={name}>{label}</FormLabel>
 			<div className="relative">
 				<Input
 					{...register(name, { valueAsNumber: props.type === "number" })}

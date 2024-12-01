@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import {
 	Controller,
 	ControllerProps,
@@ -13,7 +12,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
-import { Tipper } from "../custom";
+import { child } from "firebase/database";
 
 const Form = FormProvider;
 
@@ -90,29 +89,23 @@ type FormLabelProps = React.ComponentPropsWithoutRef<
 	typeof LabelPrimitive.Root
 > & {
 	info?: string;
+	htmlFor: string;
 };
 
 const FormLabel = React.forwardRef<
 	React.ElementRef<typeof LabelPrimitive.Root>,
 	FormLabelProps
 >(({ className, info, ...props }, ref) => {
-	const { error, formItemId } = useFormField();
+	const { formState } = useFormContext();
+
+	const error = formState.errors[props.htmlFor]?.message?.toString();
 
 	return (
-		<span className="inline space-x-2">
-			<Label
-				ref={ref}
-				className={cn(error && "text-destructive", className)}
-				htmlFor={formItemId}
-				{...props}
-			/>
-
-			{info && (
-				<Tipper tooltip={info}>
-					<InfoCircledIcon className="inline text-muted-foreground mt-0" />
-				</Tipper>
-			)}
-		</span>
+		<Label
+			ref={ref}
+			className={cn(error && "text-destructive", className)}
+			{...props}
+		/>
 	);
 });
 FormLabel.displayName = "FormLabel";

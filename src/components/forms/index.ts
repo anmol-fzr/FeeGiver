@@ -5,3 +5,4 @@ export * from "./ProfileForm";
 export * from "./AccountForm";
 export * from "./UpdateProfileForm";
 export * from "./UpdateAccountForm";
+export * from "./FeeAddForm";

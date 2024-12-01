@@ -4,9 +4,9 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-	Label,
 	FormError,
 	FormDescription,
+	FormLabel,
 } from "@/components";
 import { Option } from "@/type";
 import { useFormContext } from "react-hook-form";
@@ -34,7 +34,7 @@ const FormSelect = <T extends string>({
 
 	return (
 		<div className="w-full flex flex-col gap-2">
-			<Label htmlFor={name}>{label}</Label>
+			<FormLabel htmlFor={name}>{label}</FormLabel>
 			<Controller
 				name={name}
 				control={control}

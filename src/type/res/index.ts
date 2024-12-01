@@ -18,3 +18,4 @@ export type { IRes, ITimeStamps, ServerError };
 export * from "./auth";
 export * from "./profile";
 export * from "./fee";
+export * from "./meta";

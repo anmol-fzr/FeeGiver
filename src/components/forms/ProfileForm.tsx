@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput, FormSelect } from "@/components";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
-import { yearOptions } from "@/utils";
+import { yearOptions, currBatch, currYear } from "@/utils";
 import { Phone, Notebook, Hash } from "lucide-react";
 
 type BaseFormProps<T extends FieldValues> = {
@@ -12,8 +12,6 @@ type BaseFormProps<T extends FieldValues> = {
 	buttonText?: string;
 };
 
-const year = new Date().getFullYear().toString();
-const batch = year.slice(2);
 /**
  * Form with name, admissionNo, rollNo and batch Fields
  * Used in LoginForm and UpdateProfileForm
@@ -40,7 +38,7 @@ const ProfileForm = <T extends FieldValues>({
 const ProfileFormFields = () => {
 	return (
 		<>
-			<FormInput name="name" label="Name" placeholder="Rahul" />
+			<FormInput name="name" label="Name" placeholder="Anmol" />
 			<FormInput
 				icon={Phone}
 				name="mobile"
@@ -53,14 +51,14 @@ const ProfileFormFields = () => {
 				name="admissionNo"
 				label="Admission Number"
 				type="number"
-				placeholder={`${year}****`}
+				placeholder={`${currYear}****`}
 			/>
 			<FormInput
 				icon={Hash}
 				name="rollNo"
 				label="Roll Number"
 				type="number"
-				placeholder={`${batch}****`}
+				placeholder={`${currBatch}****`}
 			/>
 			<FormSelect
 				options={yearOptions}

@@ -18,6 +18,7 @@ import {
 	PopoverTrigger,
 	Separator,
 } from "@/components";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
 	column?: Column<TData, TValue>;
@@ -34,13 +35,14 @@ export function TableFacetedFilter<TData, TValue>({
 	title,
 	options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
+	const [parent] = useAutoAnimate();
 	const facets = column?.getFacetedUniqueValues();
 	const selectedValues = new Set(column?.getFilterValue() as string[]);
 
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button variant="outline" size="sm" className="h-8 border-dashed">
+				<Button variant="outline" size="sm" className="h-8 border-dashed pr-1">
 					<PlusCircledIcon className="mr-2 h-4 w-4" />
 					{title}
 					{selectedValues?.size > 0 && (
@@ -52,7 +54,7 @@ export function TableFacetedFilter<TData, TValue>({
 							>
 								{selectedValues.size}
 							</Badge>
-							<div className="hidden space-x-1 lg:flex">
+							<div className="hidden space-x-1 lg:flex" ref={parent}>
 								{selectedValues.size > 2 ? (
 									<Badge
 										variant="secondary"

@@ -16,6 +16,8 @@ const addFeeSchema = z
 			.regex(sbCollectRegex, "Invalid SB Collect Reference Number"),
 		amount: feeAmntSchema("Amount").positive("Amount must be greater than 0"),
 		sem: z.string({ message: "Semester is Required" }),
+		name: z.string(),
+		rollNo: z.number(),
 		feeType: z.string({ message: "Fee Type is Required" }),
 		hostelFeeAmount: feeAmntSchema("Hostel Fee Amount"),
 		otherFeeType: z.string().optional(),
