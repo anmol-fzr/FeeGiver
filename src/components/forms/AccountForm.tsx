@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 import { FormInput, ButtonProps } from "@/components";
-import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { getRand } from "@/utils";
 import { AtSign, SquareAsterisk } from "lucide-react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useCountdown } from "@/hooks";
+import { useCallback, useEffect } from "react";
+import { API } from "@/services";
+import { toast } from "sonner";
 
-type BaseFormProps<T extends FieldValues> = {
-	form: UseFormReturn<T>;
-	onSubmit: SubmitHandler<T>;
+type BaseFormProps = {
+	onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
 	isPending: boolean;
 	buttonProps?: ButtonProps;
 	buttonText?: string;
@@ -24,19 +26,35 @@ const year = new Date().getFullYear();
 const rand = getRand(1000, 5000);
 const emailPlaceholder = `${year}${rand}@sbsstc.in`;
 
-const AccountForm = <T extends FieldValues>({
-	form,
+const AccountForm = ({
 	onSubmit,
 	isPending,
 	buttonText,
 	buttonProps,
 	isOtpSent = false,
-}: BaseFormProps<T>) => {
+}: BaseFormProps) => {
+	const form = useFormContext();
 	const [animateRef] = useAutoAnimate();
-	const submit = form.handleSubmit(onSubmit);
+	const { countdown, restart } = useCountdown(59);
+
+	useEffect(() => {
+		if (isOtpSent) {
+			restart();
+		}
+	}, [restart, isOtpSent]);
+
+	const onResendOtp = useCallback(() => {
+		restart();
+		const { email = "" } = form.getValues();
+		if (!email) {
+			toast.error("Enter a Valid Email");
+		}
+		API.AUTH.LOGIN({ email });
+	}, [form]);
+
 	return (
-		<Form {...form}>
-			<form ref={animateRef} onSubmit={submit} className="space-y-4">
+		<>
+			<form ref={animateRef} onSubmit={onSubmit} className="space-y-4">
 				<FormInput
 					name="email"
 					icon={AtSign}
@@ -44,13 +62,26 @@ const AccountForm = <T extends FieldValues>({
 					placeholder={emailPlaceholder}
 				/>
 				{isOtpSent && (
-					<FormInput
-						icon={SquareAsterisk}
-						name="otp"
-						label="OTP"
-						type="number"
-						placeholder="123456"
-					/>
+					<>
+						<FormInput
+							icon={SquareAsterisk}
+							name="otp"
+							label="OTP"
+							type="number"
+							placeholder="123456"
+						/>
+						<div className="flex justify-between">
+							<p>00:{countdown}</p>
+							<button
+								onClick={onResendOtp}
+								type="button"
+								disabled={countdown !== 0}
+								className="disabled:text-neutral-500"
+							>
+								Resend OTP
+							</button>
+						</div>
+					</>
 				)}
 				<div className="space-y-2">
 					<Button
@@ -63,7 +94,7 @@ const AccountForm = <T extends FieldValues>({
 					</Button>
 				</div>
 			</form>
-		</Form>
+		</>
 	);
 };
 

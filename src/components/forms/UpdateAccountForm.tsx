@@ -1,4 +1,4 @@
-import { AccountForm } from "@/components";
+import { AccountForm, Form } from "@/components";
 import { useProfile } from "@/hooks/useProfile";
 import { stuOnboardSchema } from "@/schema";
 import { API } from "@/services";
@@ -53,18 +53,20 @@ const UpdateAccountForm = () => {
 		},
 	});
 
-	function onSubmit(values: ILoginForm) {
+	const onSubmit = form.handleSubmit((values: ILoginForm) => {
 		mutate(values);
-	}
+	});
 
 	return (
-		<AccountForm
-			buttonProps={{
-				className: "w-fit",
-			}}
-			{...{ form, onSubmit, isPending: true }}
-			buttonText="Update Account"
-		/>
+		<Form {...form}>
+			<AccountForm
+				buttonProps={{
+					className: "w-fit",
+				}}
+				{...{ form, onSubmit, isPending: true }}
+				buttonText="Update Account"
+			/>
+		</Form>
 	);
 };
 

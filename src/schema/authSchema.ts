@@ -1,14 +1,15 @@
 import { z } from "zod";
-import { orgEmailRegex } from "@/utils";
 
-const emailSchema = z
-	.string()
-	.email()
-	.regex(orgEmailRegex, "Please provived Email given by College");
+const emailSchema = z.string().email();
 
 const loginSchema = z.object({
 	email: emailSchema,
-	otp: z.coerce.number().optional().nullable(),
+	otp: z.coerce
+		.number({
+			invalid_type_error: "Enter a Valid OTP",
+		})
+		.optional()
+		.nullable(),
 });
 
 const stuOnboardSchema = z.object({

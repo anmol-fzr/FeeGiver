@@ -59,6 +59,7 @@ export function CmdK() {
 				<CommandEmpty>No results found.</CommandEmpty>
 				{opts.map(({ icon: Icon, label, to }) => (
 					<CommandItem
+						key={label}
 						onSelect={() => {
 							navigate(to);
 							setOpen(false);

@@ -6,20 +6,16 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { AccountForm } from "@/components";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { AccountForm, Form } from "@/components";
 import { useMutation } from "@tanstack/react-query";
 import { loginSchema } from "@/schema/authSchema";
 import { API } from "@/services";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store";
-import { IReqLogin } from "@/type/req";
 import { useState } from "react";
+import { useZodForm } from "@/hooks";
 
 const updateCreds = useAuthStore.getState().updateCreds;
-
-type ILoginForm = IReqLogin;
 
 const id = "login_form";
 
@@ -27,8 +23,8 @@ function LoginForm() {
 	const [isOtpSent, setIsOtpSent] = useState(false);
 	const navigate = useNavigate();
 
-	const form = useForm<ILoginForm>({
-		resolver: zodResolver(loginSchema),
+	const form = useZodForm({
+		schema: loginSchema,
 	});
 
 	const { mutate, isPending } = useMutation({
@@ -55,9 +51,9 @@ function LoginForm() {
 		},
 	});
 
-	function onSubmit(values: ILoginForm) {
+	const onSubmit = form.handleSubmit((values) => {
 		mutate(values);
-	}
+	});
 
 	return (
 		<Card className="mx-auto w-full max-w-md">
@@ -68,15 +64,16 @@ function LoginForm() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<AccountForm
-					{...{
-						form,
-						onSubmit,
-						isPending,
-						buttonText: "Login",
-						isOtpSent,
-					}}
-				/>
+				<Form {...form}>
+					<AccountForm
+						{...{
+							onSubmit,
+							isPending,
+							buttonText: "Login",
+							isOtpSent,
+						}}
+					/>
+				</Form>
 			</CardContent>
 		</Card>
 	);
