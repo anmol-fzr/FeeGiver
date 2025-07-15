@@ -1,14 +1,36 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import { LoginPage } from "./pages";
+import { Routes, Route } from "react-router-dom";
+import {
+	LoginPage,
+	SignUpPage,
+	OnboardingPage,
+	NotFoundPage,
+	ProfilePage,
+	AccountPage,
+	FeePage,
+} from "./pages";
+import { HomePage, FeeAddPage } from "./pages";
+import { AuthLayout, MainLayout, SettingsLayout } from "./layouts";
 
 const Router = () => {
-  return (
-    <Routes>
-      <Route path="/auth" element={<Outlet />}>
-        <Route path="login" element={<LoginPage />} />
-      </Route>
-    </Routes>
-  );
+	return (
+		<Routes>
+			<Route path="/auth" element={<AuthLayout />}>
+				<Route path="login" element={<LoginPage />} />
+				<Route path="signup" element={<SignUpPage />} />
+				<Route path="onboard" element={<OnboardingPage />} />
+			</Route>
+			<Route path="/" element={<MainLayout />}>
+				<Route path="" element={<HomePage />} />
+				<Route path="fee/add" element={<FeeAddPage />} />
+				<Route path="fee/:feeId" element={<FeePage />} />
+				<Route path="settings" element={<SettingsLayout />}>
+					<Route path="profile" element={<ProfilePage />} />
+					<Route path="account" element={<AccountPage />} />
+				</Route>
+				<Route path="*" element={<NotFoundPage />} />
+			</Route>
+		</Routes>
+	);
 };
 
 export { Router };
