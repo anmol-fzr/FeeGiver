@@ -1,8 +1,14 @@
-https://github.com/UretzkyZvi/capture-photo
-https://github.com/redpangilinan/credenza
-https://bundui.io/docs/components/
-https://www.armand-salle.fr/post/autocomplete-select-shadcn-ui/
-https://github.com/Aslam97/react-confirm-dialog
-https://github.com/sadmann7/file-uploader
-https://ui.indie-starter.dev/docs/bento-4
-https://nyxbui.design/docs/components
+# 📦 FeeGiver
+Student-facing Fee Submission Portal
+
+FeeGiver is the frontend module designed for students to securely log in and submit their fee details and supporting documents.
+
+Built with: React, react-hook-form, shadcn/ui, TailwindCSS, Zustand, Zod
+
+Written in: TypeScript
+
+Features:
+- Simple and intuitive UI for fee submission
+- Client-side form validation using Zod
+- Persistent state management via Zustand
+- Fully responsive and styled with TailwindCSS
